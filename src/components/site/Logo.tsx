@@ -18,4 +18,3 @@ export function Logo({ variant = "light" }: { variant?: "light" | "dark" }) {
     </Link>
   );
 }
-}
