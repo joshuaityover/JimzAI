@@ -1,6 +1,9 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { services } from "@/lib/site-data";
+import { Link } from "@tanstack/react-router";
+import { ArrowRight } from "lucide-react";
+import { serviceCategories } from "@/lib/services-data";
 import { CtaLink, PageHero, Section, SectionHeading } from "@/components/site/ui";
+import { cn } from "@/lib/utils";
 
 export const Route = createFileRoute("/services")({
   head: () => ({
@@ -35,22 +38,78 @@ function ServicesPage() {
       />
 
       <Section tone="ivory">
-        <div className="grid gap-px overflow-hidden rounded-sm border border-border bg-border sm:grid-cols-2">
-          {services.map((service) => (
-            <article key={service.slug} className="bg-card p-8 sm:p-10">
-              <service.icon className="h-7 w-7 text-accent" aria-hidden />
-              <h2 className="mt-6 text-xl font-bold text-primary">{service.title}</h2>
-              <p className="mt-3 text-sm leading-relaxed text-ink/70">{service.summary}</p>
-              <ul className="mt-6 space-y-2">
-                {service.points.map((point) => (
-                  <li key={point} className="flex gap-3 text-sm text-ink/75">
-                    <span className="mt-2 h-1 w-4 shrink-0 bg-accent" aria-hidden />
-                    {point}
-                  </li>
-                ))}
-              </ul>
+        <SectionHeading
+          eyebrow="What we do"
+          title="An AI creative and digital solutions partner."
+          intro="Five connected practice areas — video, advertising, content, business systems and enablement — delivered by one studio team."
+        />
+
+        <div className="mt-14 space-y-8">
+          {serviceCategories.map((service, i) => (
+            <article
+              key={service.slug}
+              id={service.slug}
+              className="group grid overflow-hidden rounded-sm border border-border bg-card transition-all duration-500 hover:-translate-y-1 hover:border-primary/30 hover:shadow-[0_28px_60px_-40px_color-mix(in_oklab,var(--primary)_60%,transparent)] lg:grid-cols-2"
+            >
+              <div className={cn("relative overflow-hidden bg-primary", i % 2 === 1 && "lg:order-2")}>
+                <img
+                  src={service.image}
+                  alt={service.imageAlt}
+                  loading="lazy"
+                  width={1200}
+                  height={900}
+                  className="h-full min-h-[240px] w-full object-cover transition-transform duration-700 ease-out group-hover:scale-[1.04]"
+                />
+                <span className="absolute left-6 top-6 font-display text-sm font-bold tracking-widest text-primary-foreground/80">
+                  {service.index}
+                </span>
+              </div>
+
+              <div className="p-8 sm:p-10 lg:p-12">
+                <span className="inline-flex h-11 w-11 items-center justify-center rounded-sm bg-secondary text-accent transition-colors duration-300 group-hover:bg-accent group-hover:text-accent-foreground">
+                  <service.icon className="h-5 w-5" aria-hidden />
+                </span>
+                <h2 className="mt-6 text-2xl font-bold text-primary sm:text-[1.75rem]">{service.title}</h2>
+                <p className="mt-4 max-w-xl text-base leading-relaxed text-ink/70">{service.description}</p>
+
+                <ul className="mt-7 grid gap-x-8 gap-y-2 sm:grid-cols-2">
+                  {service.items.map((item) => (
+                    <li key={item} className="flex items-start gap-3 text-sm text-ink/75">
+                      <span className="mt-2 h-1 w-4 shrink-0 bg-accent" aria-hidden />
+                      {item}
+                    </li>
+                  ))}
+                </ul>
+
+                <Link
+                  to={service.to}
+                  className="mt-9 inline-flex items-center gap-2 border-b border-accent/40 pb-1 text-sm font-semibold text-primary transition-colors hover:text-accent"
+                >
+                  Explore Service
+                  <ArrowRight
+                    className="h-4 w-4 transition-transform duration-300 group-hover:translate-x-1"
+                    aria-hidden
+                  />
+                </Link>
+              </div>
             </article>
           ))}
+        </div>
+      </Section>
+
+      <Section tone="white">
+        <div className="mx-auto max-w-3xl text-center">
+          <p className="eyebrow text-accent">Start here</p>
+          <h2 className="mt-4 text-3xl font-bold leading-tight text-primary sm:text-4xl">
+            Not sure what your business needs?
+          </h2>
+          <p className="mt-5 text-base leading-relaxed text-ink/70 sm:text-lg">
+            Tell us the outcome you are after. We will map it to the right mix of video, advertising, content and AI
+            systems.
+          </p>
+          <div className="mt-9 flex justify-center">
+            <CtaLink to="/contact">Talk to JIMZ AI</CtaLink>
+          </div>
         </div>
       </Section>
 
