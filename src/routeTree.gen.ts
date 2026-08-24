@@ -18,6 +18,8 @@ import { Route as PricingRouteImport } from './routes/pricing'
 import { Route as ProcessRouteImport } from './routes/process'
 import { Route as ServicesRouteImport } from './routes/services'
 import { Route as WorkRouteImport } from './routes/work'
+import { Route as AiVideoContentIndexRouteImport } from './routes/ai-video-content.index'
+import { Route as AiVideoContentSlugRouteImport } from './routes/ai-video-content.$slug'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
@@ -64,40 +66,55 @@ const WorkRoute = WorkRouteImport.update({
   path: '/work',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AiVideoContentIndexRoute = AiVideoContentIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => AiVideoContentRoute,
+} as any)
+const AiVideoContentSlugRoute = AiVideoContentSlugRouteImport.update({
+  id: '/$slug',
+  path: '/$slug',
+  getParentRoute: () => AiVideoContentRoute,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
-  '/ai-video-content': typeof AiVideoContentRoute
+  '/ai-video-content': typeof AiVideoContentRouteWithChildren
   '/contact': typeof ContactRoute
   '/faq': typeof FaqRoute
   '/pricing': typeof PricingRoute
   '/process': typeof ProcessRoute
   '/services': typeof ServicesRoute
   '/work': typeof WorkRoute
+  '/ai-video-content/$slug': typeof AiVideoContentSlugRoute
+  '/ai-video-content/': typeof AiVideoContentIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
-  '/ai-video-content': typeof AiVideoContentRoute
   '/contact': typeof ContactRoute
   '/faq': typeof FaqRoute
   '/pricing': typeof PricingRoute
   '/process': typeof ProcessRoute
   '/services': typeof ServicesRoute
   '/work': typeof WorkRoute
+  '/ai-video-content/$slug': typeof AiVideoContentSlugRoute
+  '/ai-video-content': typeof AiVideoContentIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
-  '/ai-video-content': typeof AiVideoContentRoute
+  '/ai-video-content': typeof AiVideoContentRouteWithChildren
   '/contact': typeof ContactRoute
   '/faq': typeof FaqRoute
   '/pricing': typeof PricingRoute
   '/process': typeof ProcessRoute
   '/services': typeof ServicesRoute
   '/work': typeof WorkRoute
+  '/ai-video-content/$slug': typeof AiVideoContentSlugRoute
+  '/ai-video-content/': typeof AiVideoContentIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -111,17 +128,20 @@ export interface FileRouteTypes {
     | '/process'
     | '/services'
     | '/work'
+    | '/ai-video-content/$slug'
+    | '/ai-video-content/'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
     | '/about'
-    | '/ai-video-content'
     | '/contact'
     | '/faq'
     | '/pricing'
     | '/process'
     | '/services'
     | '/work'
+    | '/ai-video-content/$slug'
+    | '/ai-video-content'
   id:
     | '__root__'
     | '/'
@@ -133,12 +153,14 @@ export interface FileRouteTypes {
     | '/process'
     | '/services'
     | '/work'
+    | '/ai-video-content/$slug'
+    | '/ai-video-content/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AboutRoute: typeof AboutRoute
-  AiVideoContentRoute: typeof AiVideoContentRoute
+  AiVideoContentRoute: typeof AiVideoContentRouteWithChildren
   ContactRoute: typeof ContactRoute
   FaqRoute: typeof FaqRoute
   PricingRoute: typeof PricingRoute
@@ -212,13 +234,41 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof WorkRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/ai-video-content/': {
+      id: '/ai-video-content/'
+      path: '/'
+      fullPath: '/ai-video-content/'
+      preLoaderRoute: typeof AiVideoContentIndexRouteImport
+      parentRoute: typeof AiVideoContentRoute
+    }
+    '/ai-video-content/$slug': {
+      id: '/ai-video-content/$slug'
+      path: '/$slug'
+      fullPath: '/ai-video-content/$slug'
+      preLoaderRoute: typeof AiVideoContentSlugRouteImport
+      parentRoute: typeof AiVideoContentRoute
+    }
   }
 }
+
+interface AiVideoContentRouteChildren {
+  AiVideoContentSlugRoute: typeof AiVideoContentSlugRoute
+  AiVideoContentIndexRoute: typeof AiVideoContentIndexRoute
+}
+
+const AiVideoContentRouteChildren: AiVideoContentRouteChildren = {
+  AiVideoContentSlugRoute: AiVideoContentSlugRoute,
+  AiVideoContentIndexRoute: AiVideoContentIndexRoute,
+}
+
+const AiVideoContentRouteWithChildren = AiVideoContentRoute._addFileChildren(
+  AiVideoContentRouteChildren,
+)
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AboutRoute: AboutRoute,
-  AiVideoContentRoute: AiVideoContentRoute,
+  AiVideoContentRoute: AiVideoContentRouteWithChildren,
   ContactRoute: ContactRoute,
   FaqRoute: FaqRoute,
   PricingRoute: PricingRoute,
