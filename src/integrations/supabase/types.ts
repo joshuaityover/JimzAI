@@ -14,16 +14,153 @@ export type Database = {
   }
   public: {
     Tables: {
-      [_ in never]: never
+      exchange_rates: {
+        Row: {
+          base_currency: string
+          fetched_at: string
+          id: string
+          provider: string
+          rates: Json
+        }
+        Insert: {
+          base_currency: string
+          fetched_at?: string
+          id?: string
+          provider?: string
+          rates: Json
+        }
+        Update: {
+          base_currency?: string
+          fetched_at?: string
+          id?: string
+          provider?: string
+          rates?: Json
+        }
+        Relationships: []
+      }
+      regional_pricing: {
+        Row: {
+          active: boolean
+          country_code: string
+          country_name: string
+          created_at: string
+          currency_code: string
+          currency_symbol: string
+          display_rule: string
+          id: string
+          pricing_multiplier: number
+          region: string | null
+          updated_at: string
+        }
+        Insert: {
+          active?: boolean
+          country_code: string
+          country_name: string
+          created_at?: string
+          currency_code: string
+          currency_symbol: string
+          display_rule?: string
+          id?: string
+          pricing_multiplier?: number
+          region?: string | null
+          updated_at?: string
+        }
+        Update: {
+          active?: boolean
+          country_code?: string
+          country_name?: string
+          created_at?: string
+          currency_code?: string
+          currency_symbol?: string
+          display_rule?: string
+          id?: string
+          pricing_multiplier?: number
+          region?: string | null
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      services: {
+        Row: {
+          active: boolean
+          base_price_usd: number
+          category: string
+          created_at: string
+          description: string
+          id: string
+          pricing_type: string
+          promo_price_usd: number | null
+          service_id: string
+          service_name: string
+          sort_order: number
+          updated_at: string
+        }
+        Insert: {
+          active?: boolean
+          base_price_usd?: number
+          category: string
+          created_at?: string
+          description?: string
+          id?: string
+          pricing_type?: string
+          promo_price_usd?: number | null
+          service_id: string
+          service_name: string
+          sort_order?: number
+          updated_at?: string
+        }
+        Update: {
+          active?: boolean
+          base_price_usd?: number
+          category?: string
+          created_at?: string
+          description?: string
+          id?: string
+          pricing_type?: string
+          promo_price_usd?: number | null
+          service_id?: string
+          service_name?: string
+          sort_order?: number
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      user_roles: {
+        Row: {
+          created_at: string
+          id: string
+          role: Database["public"]["Enums"]["app_role"]
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          role: Database["public"]["Enums"]["app_role"]
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          role?: Database["public"]["Enums"]["app_role"]
+          user_id?: string
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
     }
     Functions: {
-      [_ in never]: never
+      has_role: {
+        Args: {
+          _role: Database["public"]["Enums"]["app_role"]
+          _user_id: string
+        }
+        Returns: boolean
+      }
     }
     Enums: {
-      [_ in never]: never
+      app_role: "admin" | "user"
     }
     CompositeTypes: {
       [_ in never]: never
@@ -150,6 +287,8 @@ export type CompositeTypes<
 
 export const Constants = {
   public: {
-    Enums: {},
+    Enums: {
+      app_role: ["admin", "user"],
+    },
   },
 } as const
