@@ -1,8 +1,8 @@
 import { Link } from "@tanstack/react-router";
 import { useState } from "react";
-import { Menu, X, Globe } from "lucide-react";
+import { Menu, X } from "lucide-react";
 import { Logo } from "./Logo";
-import { useCurrency } from "./currency";
+import { RegionSwitcher } from "./region";
 
 const nav = [
   { label: "Home", to: "/" },
@@ -15,7 +15,6 @@ const nav = [
 
 export function Header() {
   const [open, setOpen] = useState(false);
-  const { currency, setCurrency } = useCurrency();
 
   return (
     <header className="sticky top-0 z-50 border-b border-border/70 bg-background/85 backdrop-blur">
@@ -38,15 +37,7 @@ export function Header() {
         </nav>
 
         <div className="flex items-center gap-3">
-          <button
-            type="button"
-            onClick={() => setCurrency(currency === "USD" ? "NGN" : "USD")}
-            className="hidden items-center gap-1.5 rounded-full border border-border px-3 py-1.5 text-[0.7rem] font-semibold tracking-wide text-muted-foreground transition-colors hover:border-primary/40 hover:text-primary sm:flex"
-            aria-label={`Prices in ${currency}. Switch currency.`}
-          >
-            <Globe className="h-3.5 w-3.5" aria-hidden />
-            Prices in {currency}
-          </button>
+          <RegionSwitcher className="hidden sm:block" />
 
           <Link
             to="/contact"
@@ -81,14 +72,7 @@ export function Header() {
               </Link>
             ))}
             <div className="mt-4 flex items-center justify-between gap-3">
-              <button
-                type="button"
-                onClick={() => setCurrency(currency === "USD" ? "NGN" : "USD")}
-                className="flex items-center gap-1.5 rounded-full border border-border px-3 py-2 text-xs font-semibold text-muted-foreground"
-              >
-                <Globe className="h-3.5 w-3.5" aria-hidden />
-                Prices in {currency}
-              </button>
+              <RegionSwitcher />
               <Link
                 to="/contact"
                 onClick={() => setOpen(false)}
