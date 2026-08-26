@@ -10,8 +10,10 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as AuthenticatedRouteRouteImport } from './routes/_authenticated/route'
 import { Route as AboutRouteImport } from './routes/about'
 import { Route as AiVideoContentRouteImport } from './routes/ai-video-content'
+import { Route as AuthRouteImport } from './routes/auth'
 import { Route as ContactRouteImport } from './routes/contact'
 import { Route as FaqRouteImport } from './routes/faq'
 import { Route as PricingRouteImport } from './routes/pricing'
@@ -20,10 +22,15 @@ import { Route as ServicesRouteImport } from './routes/services'
 import { Route as WorkRouteImport } from './routes/work'
 import { Route as AiVideoContentIndexRouteImport } from './routes/ai-video-content.index'
 import { Route as AiVideoContentSlugRouteImport } from './routes/ai-video-content.$slug'
+import { Route as AuthenticatedAdminPricingRouteImport } from './routes/_authenticated/admin.pricing'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AuthenticatedRouteRoute = AuthenticatedRouteRouteImport.update({
+  id: '/_authenticated',
   getParentRoute: () => rootRouteImport,
 } as any)
 const AboutRoute = AboutRouteImport.update({
@@ -34,6 +41,11 @@ const AboutRoute = AboutRouteImport.update({
 const AiVideoContentRoute = AiVideoContentRouteImport.update({
   id: '/ai-video-content',
   path: '/ai-video-content',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AuthRoute = AuthRouteImport.update({
+  id: '/auth',
+  path: '/auth',
   getParentRoute: () => rootRouteImport,
 } as any)
 const ContactRoute = ContactRouteImport.update({
@@ -76,11 +88,18 @@ const AiVideoContentSlugRoute = AiVideoContentSlugRouteImport.update({
   path: '/$slug',
   getParentRoute: () => AiVideoContentRoute,
 } as any)
+const AuthenticatedAdminPricingRoute =
+  AuthenticatedAdminPricingRouteImport.update({
+    id: '/admin/pricing',
+    path: '/admin/pricing',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
   '/ai-video-content': typeof AiVideoContentRouteWithChildren
+  '/auth': typeof AuthRoute
   '/contact': typeof ContactRoute
   '/faq': typeof FaqRoute
   '/pricing': typeof PricingRoute
@@ -89,10 +108,12 @@ export interface FileRoutesByFullPath {
   '/work': typeof WorkRoute
   '/ai-video-content/$slug': typeof AiVideoContentSlugRoute
   '/ai-video-content/': typeof AiVideoContentIndexRoute
+  '/admin/pricing': typeof AuthenticatedAdminPricingRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
+  '/auth': typeof AuthRoute
   '/contact': typeof ContactRoute
   '/faq': typeof FaqRoute
   '/pricing': typeof PricingRoute
@@ -101,12 +122,15 @@ export interface FileRoutesByTo {
   '/work': typeof WorkRoute
   '/ai-video-content/$slug': typeof AiVideoContentSlugRoute
   '/ai-video-content': typeof AiVideoContentIndexRoute
+  '/admin/pricing': typeof AuthenticatedAdminPricingRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/_authenticated': typeof AuthenticatedRouteRouteWithChildren
   '/about': typeof AboutRoute
   '/ai-video-content': typeof AiVideoContentRouteWithChildren
+  '/auth': typeof AuthRoute
   '/contact': typeof ContactRoute
   '/faq': typeof FaqRoute
   '/pricing': typeof PricingRoute
@@ -115,6 +139,7 @@ export interface FileRoutesById {
   '/work': typeof WorkRoute
   '/ai-video-content/$slug': typeof AiVideoContentSlugRoute
   '/ai-video-content/': typeof AiVideoContentIndexRoute
+  '/_authenticated/admin/pricing': typeof AuthenticatedAdminPricingRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -122,6 +147,7 @@ export interface FileRouteTypes {
     | '/'
     | '/about'
     | '/ai-video-content'
+    | '/auth'
     | '/contact'
     | '/faq'
     | '/pricing'
@@ -130,10 +156,12 @@ export interface FileRouteTypes {
     | '/work'
     | '/ai-video-content/$slug'
     | '/ai-video-content/'
+    | '/admin/pricing'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
     | '/about'
+    | '/auth'
     | '/contact'
     | '/faq'
     | '/pricing'
@@ -142,11 +170,14 @@ export interface FileRouteTypes {
     | '/work'
     | '/ai-video-content/$slug'
     | '/ai-video-content'
+    | '/admin/pricing'
   id:
     | '__root__'
     | '/'
+    | '/_authenticated'
     | '/about'
     | '/ai-video-content'
+    | '/auth'
     | '/contact'
     | '/faq'
     | '/pricing'
@@ -155,12 +186,15 @@ export interface FileRouteTypes {
     | '/work'
     | '/ai-video-content/$slug'
     | '/ai-video-content/'
+    | '/_authenticated/admin/pricing'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  AuthenticatedRouteRoute: typeof AuthenticatedRouteRouteWithChildren
   AboutRoute: typeof AboutRoute
   AiVideoContentRoute: typeof AiVideoContentRouteWithChildren
+  AuthRoute: typeof AuthRoute
   ContactRoute: typeof ContactRoute
   FaqRoute: typeof FaqRoute
   PricingRoute: typeof PricingRoute
@@ -178,6 +212,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/_authenticated': {
+      id: '/_authenticated'
+      path: ''
+      fullPath: '/'
+      preLoaderRoute: typeof AuthenticatedRouteRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/about': {
       id: '/about'
       path: '/about'
@@ -190,6 +231,13 @@ declare module '@tanstack/react-router' {
       path: '/ai-video-content'
       fullPath: '/ai-video-content'
       preLoaderRoute: typeof AiVideoContentRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/auth': {
+      id: '/auth'
+      path: '/auth'
+      fullPath: '/auth'
+      preLoaderRoute: typeof AuthRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/contact': {
@@ -248,8 +296,26 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AiVideoContentSlugRouteImport
       parentRoute: typeof AiVideoContentRoute
     }
+    '/_authenticated/admin/pricing': {
+      id: '/_authenticated/admin/pricing'
+      path: '/admin/pricing'
+      fullPath: '/admin/pricing'
+      preLoaderRoute: typeof AuthenticatedAdminPricingRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
   }
 }
+
+interface AuthenticatedRouteRouteChildren {
+  AuthenticatedAdminPricingRoute: typeof AuthenticatedAdminPricingRoute
+}
+
+const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
+  AuthenticatedAdminPricingRoute: AuthenticatedAdminPricingRoute,
+}
+
+const AuthenticatedRouteRouteWithChildren =
+  AuthenticatedRouteRoute._addFileChildren(AuthenticatedRouteRouteChildren)
 
 interface AiVideoContentRouteChildren {
   AiVideoContentSlugRoute: typeof AiVideoContentSlugRoute
@@ -267,8 +333,10 @@ const AiVideoContentRouteWithChildren = AiVideoContentRoute._addFileChildren(
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  AuthenticatedRouteRoute: AuthenticatedRouteRouteWithChildren,
   AboutRoute: AboutRoute,
   AiVideoContentRoute: AiVideoContentRouteWithChildren,
+  AuthRoute: AuthRoute,
   ContactRoute: ContactRoute,
   FaqRoute: FaqRoute,
   PricingRoute: PricingRoute,
