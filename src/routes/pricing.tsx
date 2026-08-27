@@ -1,6 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { Check, Globe, RefreshCw } from "lucide-react";
-import { pricingPlans } from "@/lib/site-data";
+import { Check, Clapperboard, Globe, Layers, Megaphone, Package, RefreshCw, Rocket } from "lucide-react";
 import { countryFlag, useRegion } from "@/components/site/region";
 import { PRICING_DISCLAIMER, pricingTypeLabel } from "@/lib/pricing-types";
 import { CtaLink, PageHero, Section, SectionHeading } from "@/components/site/ui";
@@ -12,12 +11,13 @@ export const Route = createFileRoute("/pricing")({
       {
         name: "description",
         content:
-          "Estimated regional pricing for AI video and content production, shown in your local currency, from single-project starters to monthly retainers.",
+          "Flexible AI content solutions for every stage of growth — regional pricing in your local currency, from single campaigns to ongoing content production.",
       },
       { property: "og:title", content: "Pricing — JIMZ AI" },
       {
         property: "og:description",
-        content: "Estimated pricing for your region, shown in your local currency.",
+        content:
+          "Flexible AI content solutions for every stage of growth, priced in your local currency.",
       },
       { property: "og:type", content: "website" },
       { property: "og:url", content: "/pricing" },
@@ -28,11 +28,62 @@ export const Route = createFileRoute("/pricing")({
   component: PricingPage,
 });
 
-const PLAN_SERVICE: Record<string, string> = {
-  Starter: "plan-starter",
-  Growth: "plan-growth",
-  Enterprise: "plan-enterprise",
-};
+const PLANS = [
+  {
+    name: "Starter",
+    serviceId: "plan-starter",
+    tagline: "For businesses testing AI-powered content.",
+    features: [
+      "4 short-form AI videos",
+      "Basic creative direction",
+      "AI voiceover",
+      "Basic editing",
+      "1 revision round",
+    ],
+    featured: false,
+    cta: "Start a Project",
+  },
+  {
+    name: "Growth",
+    serviceId: "plan-growth",
+    tagline: "For brands that need consistent content.",
+    features: [
+      "8 short-form videos per month",
+      "Creative strategy",
+      "UGC + spokesperson content",
+      "Professional voiceover",
+      "Sound design",
+      "Captions & formatting",
+      "2 revision rounds",
+    ],
+    featured: true,
+    cta: "Start a Project",
+  },
+  {
+    name: "Scale",
+    serviceId: "plan-enterprise",
+    tagline: "For brands requiring ongoing creative production.",
+    features: [
+      "12–16 videos per month",
+      "Multiple creative concepts",
+      "UGC & commercial content",
+      "Product videos",
+      "Multiple formats & ratios",
+      "Priority production",
+      "Dedicated creative support",
+    ],
+    featured: false,
+    cta: "Request a Proposal",
+  },
+];
+
+const CUSTOM_PROJECT_TYPES = [
+  { icon: Clapperboard, label: "AI Commercials" },
+  { icon: Rocket, label: "Product Launches" },
+  { icon: Megaphone, label: "Campaigns" },
+  { icon: Layers, label: "Corporate Videos" },
+  { icon: Package, label: "Large Content Packages" },
+];
 
 function RegionBanner() {
   const { data, regions, isLoading, isError, manualCountry, setCountry } = useRegion();
@@ -100,30 +151,34 @@ function PricingPage() {
     <>
       <PageHero
         eyebrow="Pricing"
-        title="Choose the creative support your brand needs."
-        intro="Clear packages, no hidden production fees. Every engagement starts with a short discovery call to confirm scope."
+        title="Flexible AI Content Solutions for Every Stage of Growth."
+        intro="From a single campaign to ongoing content production, choose the level of creative support your business needs."
       />
 
       <Section tone="ivory">
         <RegionBanner />
 
         <div className="grid gap-8 lg:grid-cols-3">
-          {pricingPlans.map((plan) => {
-            const priced = byId.get(PLAN_SERVICE[plan.name] ?? "");
+          {PLANS.map((plan) => {
+            const priced = byId.get(plan.serviceId);
             const isCustom = priced?.pricingType === "custom";
             return (
               <article
                 key={plan.name}
-                className={`flex flex-col rounded-sm border p-8 ${
+                className={`flex flex-col rounded-sm border p-8 transition-transform hover:-translate-y-1 ${
                   plan.featured
                     ? "border-accent bg-card shadow-[0_24px_60px_-40px_rgba(7,91,58,0.6)]"
                     : "border-border bg-card"
                 }`}
               >
-                {plan.featured && (
-                  <span className="eyebrow mb-4 inline-block text-accent">Most popular</span>
+                {plan.featured ? (
+                  <span className="eyebrow mb-4 inline-block text-accent">Most Popular</span>
+                ) : (
+                  <span className="mb-4 block h-[1.05rem]" aria-hidden />
                 )}
-                <h2 className="text-lg font-bold text-primary">{plan.name}</h2>
+                <h2 className="text-lg font-bold uppercase tracking-widest text-primary">
+                  {plan.name}
+                </h2>
                 <p className="mt-2 text-sm text-ink/70">{plan.tagline}</p>
 
                 <p className="mt-7 text-xs uppercase tracking-widest text-muted-foreground">
@@ -136,7 +191,7 @@ function PricingPage() {
                   {isLoading ? (
                     <span className="inline-block h-9 w-40 animate-pulse rounded bg-muted align-middle" />
                   ) : isCustom || !priced ? (
-                    "Custom"
+                    "Custom Pricing"
                   ) : (
                     priced.formatted
                   )}
@@ -157,7 +212,7 @@ function PricingPage() {
                 </ul>
                 <div className="mt-8">
                   <CtaLink to="/contact" variant={plan.featured ? "primary" : "outline"}>
-                    Start a Project
+                    {plan.cta}
                   </CtaLink>
                 </div>
               </article>
@@ -169,9 +224,35 @@ function PricingPage() {
       </Section>
 
       <Section tone="white">
+        <div className="grid items-center gap-12 lg:grid-cols-2">
+          <div>
+            <SectionHeading
+              eyebrow="Custom projects"
+              title="Custom Projects"
+              intro="Some ideas don't fit a package. We scope bespoke AI productions end to end — from creative concept to final delivery."
+            />
+            <div className="mt-8">
+              <CtaLink to="/contact">Talk to Our Team</CtaLink>
+            </div>
+          </div>
+          <ul className="grid gap-4 sm:grid-cols-2">
+            {CUSTOM_PROJECT_TYPES.map(({ icon: Icon, label }) => (
+              <li
+                key={label}
+                className="flex items-center gap-3 rounded-sm border border-border bg-card p-5 text-sm font-semibold text-primary transition-transform hover:-translate-y-0.5"
+              >
+                <Icon className="h-5 w-5 shrink-0 text-accent" aria-hidden />
+                {label}
+              </li>
+            ))}
+          </ul>
+        </div>
+      </Section>
+
+      <Section tone="ivory">
         <SectionHeading
           eyebrow="Service estimates"
-          title="Estimated pricing for your region"
+          title="Individual service rates"
           intro="Individual services, priced from our USD rate card and shown in your local currency."
         />
 
