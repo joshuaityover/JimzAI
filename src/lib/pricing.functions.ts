@@ -12,7 +12,7 @@ export const getRegionalPricing = createServerFn({ method: "GET" })
   }))
   .handler(async ({ data }): Promise<RegionalPricingResponse> => {
     const { buildRegionalPricing, detectCountry } = await import("./pricing.server");
-    let detected: { country: string | null; method: "header" | "ip-lookup" | "fallback" } = {
+    let detected: Awaited<ReturnType<typeof detectCountry>> = {
       country: null,
       method: "fallback",
     };
