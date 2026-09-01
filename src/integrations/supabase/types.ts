@@ -38,6 +38,63 @@ export type Database = {
         }
         Relationships: []
       }
+      project_inquiries: {
+        Row: {
+          business_email: string
+          company_name: string
+          country: string
+          created_at: string
+          desired_delivery_date: string | null
+          estimated_budget: string
+          full_name: string
+          id: string
+          project_description: string
+          project_type: string
+          referral_source: string
+          service_needed: string
+          status: string
+          target_audience: string
+          updated_at: string
+          website: string | null
+        }
+        Insert: {
+          business_email: string
+          company_name: string
+          country: string
+          created_at?: string
+          desired_delivery_date?: string | null
+          estimated_budget: string
+          full_name: string
+          id?: string
+          project_description: string
+          project_type: string
+          referral_source: string
+          service_needed: string
+          status?: string
+          target_audience: string
+          updated_at?: string
+          website?: string | null
+        }
+        Update: {
+          business_email?: string
+          company_name?: string
+          country?: string
+          created_at?: string
+          desired_delivery_date?: string | null
+          estimated_budget?: string
+          full_name?: string
+          id?: string
+          project_description?: string
+          project_type?: string
+          referral_source?: string
+          service_needed?: string
+          status?: string
+          target_audience?: string
+          updated_at?: string
+          website?: string | null
+        }
+        Relationships: []
+      }
       regional_pricing: {
         Row: {
           active: boolean

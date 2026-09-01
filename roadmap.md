@@ -1,0 +1,4 @@
+- [ ] Create secure inquiry database table, policies, and email notification path
+- [ ] Build public project inquiry form with validation, regional budgets, and confirmation state
+- [ ] Build authenticated owner inquiry dashboard with status updates
+- [ ] Verify build, runtime, and public/admin access flows
