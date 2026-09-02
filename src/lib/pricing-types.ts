@@ -26,6 +26,8 @@ export type RegionalPricingResponse = {
   region: RegionInfo;
   services: PublicService[];
   rateAsOf: string | null;
+  /** The cached FX conversion used for approximate budget display. */
+  currencyRate: number;
   notice: string;
 };
 

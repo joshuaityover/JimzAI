@@ -171,7 +171,13 @@ export async function buildRegionalPricing(input: {
     };
   });
 
-  return { region: effective, services, rateAsOf, notice: PRICING_DISCLAIMER };
+  return {
+    region: effective,
+    services,
+    rateAsOf,
+    currencyRate: effectiveRate,
+    notice: PRICING_DISCLAIMER,
+  };
 }
 
 export async function listSupportedRegions(): Promise<SupportedRegion[]> {

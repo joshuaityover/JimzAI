@@ -1,4 +1,4 @@
-import { createFileRoute, useNavigate } from "@tanstack/react-router";
+import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useServerFn } from "@tanstack/react-start";
 import { useState } from "react";
@@ -133,16 +133,21 @@ function AdminPricingPage() {
             exchange rates convert the amount into the visitor&apos;s currency.
           </p>
         </div>
-        <button
-          type="button"
-          onClick={async () => {
-            await supabase.auth.signOut();
-            navigate({ to: "/auth" });
-          }}
-          className="rounded-sm border border-border px-4 py-2 text-sm font-semibold text-primary"
-        >
-          Sign out
-        </button>
+        <div className="flex flex-wrap gap-3">
+          <Link to="/admin/inquiries" className="rounded-sm border border-primary/25 px-4 py-2 text-sm font-semibold text-primary transition-colors hover:border-primary/60">
+            Project inquiries
+          </Link>
+          <button
+            type="button"
+            onClick={async () => {
+              await supabase.auth.signOut();
+              navigate({ to: "/auth" });
+            }}
+            className="rounded-sm border border-border px-4 py-2 text-sm font-semibold text-primary"
+          >
+            Sign out
+          </button>
+        </div>
       </div>
 
       <h2 className="mt-12 text-lg font-bold text-primary">Services</h2>
