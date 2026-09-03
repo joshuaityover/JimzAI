@@ -72,7 +72,7 @@ function ContactPage() {
   const region = pricing?.region;
   const currencyCode = region?.currencyCode ?? "USD";
   const currencySymbol = region?.currencySymbol ?? "$";
-  const rate = pricing?.currencyRate ?? 1;
+  const rate = region?.currencyCode === "USD" ? 1 : (pricing?.currencyRate ?? 1);
 
   async function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
@@ -143,32 +143,32 @@ function ContactPage() {
                 </div>
 
                 <div className="mt-8 grid gap-6 sm:grid-cols-2">
-                  <Field label="Full name" name="full_name" required error={errors.full_name} />
-                  <Field label="Business / company name" name="company_name" required error={errors.company_name} />
-                  <Field label="Business email" name="business_email" type="email" required error={errors.business_email} />
-                  <Field label="Website" name="website" type="url" placeholder="https://" error={errors.website} />
+                  <Field label="Full name" name="full_name" required error={errors["full_name"]} />
+                  <Field label="Business / company name" name="company_name" required error={errors["company_name"]} />
+                  <Field label="Business email" name="business_email" type="email" required error={errors["business_email"]} />
+                  <Field label="Website" name="website" type="url" placeholder="https://" error={errors["website"]} />
                   <label className="block text-sm">
                     <span className="font-semibold text-primary">Country <span className="text-accent">*</span></span>
                     <Input list="country-options" name="country" required defaultValue={region?.countryName ?? ""} className="mt-2 h-11" />
                     <datalist id="country-options">
                       {regions.map((item) => <option key={item.countryCode} value={item.countryName} />)}
                     </datalist>
-                    {errors.country && <FieldError>{errors.country}</FieldError>}
+                    {errors["country"] && <FieldError>{errors["country"]}</FieldError>}
                   </label>
-                  <SelectField label="Service needed" name="service_needed" required error={errors.service_needed}>
+                  <SelectField label="Service needed" name="service_needed" required error={errors["service_needed"]}>
                     <option value="">Select a service</option>
                     {inquiryServices.map((service) => <option key={service}>{service}</option>)}
                   </SelectField>
-                  <SelectField label="Project type" name="project_type" required error={errors.project_type}>
+                  <SelectField label="Project type" name="project_type" required error={errors["project_type"]}>
                     <option value="">Select a project type</option>
                     {inquiryProjectTypes.map((type) => <option key={type}>{type}</option>)}
                   </SelectField>
                   <label className="block text-sm">
                     <span className="font-semibold text-primary">Desired delivery date</span>
                     <Input name="desired_delivery_date" type="date" min={new Date().toISOString().split("T")[0]} className="mt-2 h-11" />
-                    {errors.desired_delivery_date && <FieldError>{errors.desired_delivery_date}</FieldError>}
+                    {errors["desired_delivery_date"] && <FieldError>{errors["desired_delivery_date"]}</FieldError>}
                   </label>
-                  <SelectField label={`Estimated budget · ${currencyCode}`} name="estimated_budget" required error={errors.estimated_budget}>
+                  <SelectField label={`Estimated budget · ${currencyCode}`} name="estimated_budget" required error={errors["estimated_budget"]}>
                     <option value="">Choose an approximate range</option>
                     {budgetTiers.map((tier) => (
                       <option key={tier.value} value={budgetLabel(tier, rate, currencyCode, currencySymbol)}>
@@ -179,9 +179,9 @@ function ContactPage() {
                 </div>
 
                 <div className="mt-6 grid gap-6">
-                  <TextField label="Project description" name="project_description" required rows={6} placeholder="What are you launching, who is it for, and what should the work achieve?" error={errors.project_description} />
-                  <Field label="Target audience" name="target_audience" required placeholder="Who needs to see, use or act on this?" error={errors.target_audience} />
-                  <SelectField label="How did you hear about JIMZ AI?" name="referral_source" required error={errors.referral_source}>
+                  <TextField label="Project description" name="project_description" required rows={6} placeholder="What are you launching, who is it for, and what should the work achieve?" error={errors["project_description"]} />
+                  <Field label="Target audience" name="target_audience" required placeholder="Who needs to see, use or act on this?" error={errors["target_audience"]} />
+                  <SelectField label="How did you hear about JIMZ AI?" name="referral_source" required error={errors["referral_source"]}>
                     <option value="">Choose one</option>
                     <option>Search engine</option>
                     <option>Social media</option>
@@ -191,7 +191,7 @@ function ContactPage() {
                   </SelectField>
                 </div>
 
-                {errors.form && <p className="mt-6 text-sm text-destructive" role="alert">{errors.form}</p>}
+                {errors["form"] && <p className="mt-6 text-sm text-destructive" role="alert">{errors["form"]}</p>}
                 <div className="mt-8 flex flex-col items-start gap-3 border-t border-border pt-7 sm:flex-row sm:items-center sm:justify-between">
                   <p className="max-w-sm text-xs leading-relaxed text-muted-foreground">Your brief is private and is only used to scope your request.</p>
                   <Button type="submit" disabled={busy} className="h-12 bg-accent px-6 text-accent-foreground hover:bg-accent/90">
@@ -219,7 +219,7 @@ function ContactPage() {
   );
 }
 
-function Field({ label, name, type = "text", required, placeholder, error }: { label: string; name: string; type?: string; required?: boolean; placeholder?: string; error?: string }) {
+function Field({ label, name, type = "text", required, placeholder, error }: { label: string; name: string; type?: string; required?: boolean; placeholder?: string; error?: string | undefined }) {
   return (
     <label className="block text-sm">
       <span className="font-semibold text-primary">{label} {required && <span className="text-accent">*</span>}</span>
@@ -229,7 +229,7 @@ function Field({ label, name, type = "text", required, placeholder, error }: { l
   );
 }
 
-function SelectField({ label, name, required, error, children }: { label: string; name: string; required?: boolean; error?: string; children: ReactNode }) {
+function SelectField({ label, name, required, error, children }: { label: string; name: string; required?: boolean; error?: string | undefined; children: ReactNode }) {
   return (
     <label className="block text-sm">
       <span className="font-semibold text-primary">{label} {required && <span className="text-accent">*</span>}</span>
@@ -241,7 +241,7 @@ function SelectField({ label, name, required, error, children }: { label: string
   );
 }
 
-function TextField({ label, name, required, rows, placeholder, error }: { label: string; name: string; required?: boolean; rows?: number; placeholder?: string; error?: string }) {
+function TextField({ label, name, required, rows, placeholder, error }: { label: string; name: string; required?: boolean; rows?: number; placeholder?: string; error?: string | undefined }) {
   return (
     <label className="block text-sm">
       <span className="font-semibold text-primary">{label} {required && <span className="text-accent">*</span>}</span>
