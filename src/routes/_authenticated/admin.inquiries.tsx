@@ -68,7 +68,7 @@ function AdminInquiriesPage() {
           <h1 className="mt-3 text-2xl font-bold text-primary">Admin access required</h1>
           <p className="mt-3 text-sm leading-relaxed text-ink/70">This inbox is restricted to authenticated JIMZ AI admins.</p>
           <div className="mt-6 flex flex-wrap gap-3">
-            <Button asChild variant="outline"><Link to="/pricing">Back to pricing console</Link></Button>
+            <Button asChild variant="outline"><Link to="/admin/pricing">Back to pricing console</Link></Button>
             <Button type="button" onClick={signOut} className="bg-accent text-accent-foreground">Sign out</Button>
           </div>
         </div>
