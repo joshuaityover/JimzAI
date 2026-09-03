@@ -72,7 +72,7 @@ function ContactPage() {
   const region = pricing?.region;
   const currencyCode = region?.currencyCode ?? "USD";
   const currencySymbol = region?.currencySymbol ?? "$";
-  const rate = pricing?.currencyRate ?? 1;
+  const rate = region?.currencyCode === "USD" ? 1 : (pricing?.currencyRate ?? 1);
 
   async function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
