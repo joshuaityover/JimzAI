@@ -3,6 +3,7 @@ import heroImage from "@/assets/hero-abstract.jpg";
 import { CtaLink, Section, SectionHeading } from "@/components/site/ui";
 import { differentiators, processSteps, services } from "@/lib/site-data";
 import { workItems } from "@/components/site/work-data";
+import { CreativeAdvisor } from "@/components/site/CreativeAdvisor";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -49,6 +50,7 @@ function Index() {
       <Hero />
       <Intro />
       <ServiceCategories />
+      <CreativeAdvisor />
       <SelectedWork />
       <WhyJimz />
       <ProcessTeaser />
