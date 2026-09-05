@@ -4,6 +4,7 @@ import { ArrowRight } from "lucide-react";
 import { serviceCategories } from "@/lib/services-data";
 import { CtaLink, PageHero, Section, SectionHeading } from "@/components/site/ui";
 import { cn } from "@/lib/utils";
+import { CreativeAdvisor } from "@/components/site/CreativeAdvisor";
 
 export const Route = createFileRoute("/services")({
   head: () => ({
@@ -96,6 +97,8 @@ function ServicesPage() {
           ))}
         </div>
       </Section>
+
+      <CreativeAdvisor compact />
 
       <Section tone="white">
         <div className="mx-auto max-w-3xl text-center">
