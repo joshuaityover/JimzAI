@@ -80,7 +80,9 @@ SERVICE CATALOG:
 ${serviceCatalog}`;
 
     try {
-      const gateway = createLovableAiGatewayProvider(apiKey, getLovableAiGatewayRunId(request));
+      const gateway = createLovableAiGatewayProvider(apiKey, getLovableAiGatewayRunId(request), {
+        structuredOutputs: true,
+      });
       const result = streamText({
         model: gateway("google/gemini-3.1-flash-lite"),
         prompt,
