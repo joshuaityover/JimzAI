@@ -1,5 +1,5 @@
 import { useServerFn } from "@tanstack/react-start";
-import { ArrowRight, BrainCircuit, Check, LoaderCircle, Sparkles } from "lucide-react";
+import { ArrowRight, BrainCircuit, LoaderCircle, Sparkles } from "lucide-react";
 import { useState, type FormEvent } from "react";
 import { Button } from "@/components/ui/button";
 import { CtaLink, Section } from "@/components/site/ui";
@@ -19,12 +19,12 @@ const CONTENT_OPTIONS = [
   "AI business automation",
 ];
 
-const BUDGET_OPTIONS = [
-  { value: "under-1500", label: "Under the starter range" },
-  { value: "1500-3500", label: "A focused growth project" },
-  { value: "3500-7500", label: "A larger campaign or content system" },
-  { value: "7500-plus", label: "An ongoing or enterprise engagement" },
-];
+const BUDGET_TIERS = [
+  { value: "starter", min: 500, max: 1500, label: "Starter project" },
+  { value: "growth", min: 1500, max: 3500, label: "Growth project" },
+  { value: "scale", min: 3500, max: 7500, label: "Scale project" },
+  { value: "enterprise", min: 7500, max: null, label: "Larger or ongoing engagement" },
+] as const;
 
 type AdvisorForm = Omit<CreativeAdvisorInput, "countryCode">;
 type AdvisorErrors = Partial<Record<keyof AdvisorForm | "form", string>>;
@@ -45,6 +45,13 @@ export function CreativeAdvisor({ compact = false }: { compact?: boolean }) {
   const [result, setResult] = useState<CreativeAdvisorResult | null>(null);
   const [errors, setErrors] = useState<AdvisorErrors>({});
   const [busy, setBusy] = useState(false);
+  const currencyCode = pricing?.region.currencyCode ?? "USD";
+  const currencySymbol = pricing?.region.currencySymbol ?? "$";
+  const rate = currencyCode === "USD" ? 1 : (pricing?.currencyRate ?? 1);
+  const budgetOptions = BUDGET_TIERS.map((tier) => ({
+    value: tier.value,
+    label: budgetLabel(tier, rate, currencyCode, currencySymbol),
+  }));
 
   function update(field: keyof AdvisorForm, value: string) {
     setForm((current) => ({ ...current, [field]: value }));
@@ -119,7 +126,7 @@ export function CreativeAdvisor({ compact = false }: { compact?: boolean }) {
                 <AdvisorField label="What are you trying to achieve?" value={form.goal} error={errors.goal} onChange={(value) => update("goal", value)} placeholder="Launch, awareness, leads or education" />
                 <AdvisorField label="Where will the content be used?" value={form.placement} error={errors.placement} onChange={(value) => update("placement", value)} placeholder="Social, paid ads, website or internal" />
                 <AdvisorSelect label="What type of content interests you?" value={form.contentType} error={errors.contentType} onChange={(value) => update("contentType", value)} options={CONTENT_OPTIONS} placeholder="Choose a direction" />
-                <AdvisorSelect label="What is your approximate budget?" value={form.budget} error={errors.budget} onChange={(value) => update("budget", value)} options={BUDGET_OPTIONS.map((option) => option.label)} placeholder="Choose a range" />
+                <AdvisorSelect label="What is your approximate budget?" value={form.budget} error={errors.budget} onChange={(value) => update("budget", value)} options={budgetOptions} placeholder="Choose a range" />
               </div>
               {errors.form && <p className="mt-5 text-sm text-destructive" role="alert">{errors.form}</p>}
               <div className="mt-7 flex flex-col gap-4 border-t border-border/70 pt-6 sm:flex-row sm:items-center sm:justify-between">
@@ -181,15 +188,29 @@ function AdvisorField({ label, value, error, placeholder, onChange }: { label: s
   );
 }
 
-function AdvisorSelect({ label, value, error, options, placeholder, onChange }: { label: string; value: string; error: string | undefined; options: string[]; placeholder: string; onChange: (value: string) => void }) {
+function AdvisorSelect({ label, value, error, options, placeholder, onChange }: { label: string; value: string; error: string | undefined; options: Array<string | { value: string; label: string }>; placeholder: string; onChange: (value: string) => void }) {
   return (
     <label className="block text-sm">
       <span className="font-semibold text-primary">{label}</span>
       <select value={value} onChange={(event) => onChange(event.target.value)} className="mt-2 h-11 w-full rounded-md border border-input bg-background px-3 text-sm text-ink outline-none focus-visible:ring-1 focus-visible:ring-ring">
         <option value="">{placeholder}</option>
-        {options.map((option) => <option key={option} value={option}>{option}</option>)}
+        {options.map((option) => {
+          const item = typeof option === "string" ? { value: option, label: option } : option;
+          return <option key={item.value} value={item.value}>{item.label}</option>;
+        })}
       </select>
       {error && <span className="mt-1 block text-xs text-destructive" role="alert">{error}</span>}
     </label>
   );
+}
+
+function budgetLabel(
+  tier: (typeof BUDGET_TIERS)[number],
+  rate: number,
+  currencyCode: string,
+  symbol: string,
+) {
+  const format = (amount: number) => `${symbol}${new Intl.NumberFormat("en-US", { maximumFractionDigits: 0 }).format(amount)} ${currencyCode}`;
+  const min = format(tier.min * rate);
+  return tier.max ? `${tier.label} · ${min} – ${format(tier.max * rate)}` : `${tier.label} · ${min}+`;
 }
