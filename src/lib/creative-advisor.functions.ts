@@ -29,6 +29,18 @@ function cleanNextStep(value: string): string {
   return `${withoutClosingQuestion || "Start with a focused creative brief."} Ready to turn the idea into content?`;
 }
 
+function parseFallbackRecommendation(text: string | undefined) {
+  if (!text) return null;
+  const candidate = text.match(/\{[\s\S]*\}/)?.[0];
+  if (!candidate) return null;
+  try {
+    const parsed = creativeAdvisorResultSchema.safeParse(JSON.parse(candidate));
+    return parsed.success ? parsed.data : null;
+  } catch {
+    return null;
+  }
+}
+
 export const getCreativeAdvisorRecommendation = createServerFn({ method: "POST" })
   .inputValidator((input: unknown) => creativeAdvisorSchema.parse(input))
   .handler(async ({ data }): Promise<CreativeAdvisorResult> => {
@@ -94,6 +106,21 @@ ${serviceCatalog}`;
       };
     } catch (error) {
       if (NoObjectGeneratedError.isInstance(error)) {
+        const fallback = parseFallbackRecommendation(error.text);
+        if (fallback) {
+          const selected = pricing.services.find((service) => service.serviceId === fallback.serviceId) ?? pricing.services[0];
+          if (selected) {
+            return {
+              ...fallback,
+              serviceId: selected.serviceId,
+              suitableService: selected.serviceName,
+              suggestedNextStep: cleanNextStep(fallback.suggestedNextStep),
+              estimatedStartingPrice: selected.formatted,
+              pricingService: selected.serviceName,
+              pricingNotice: pricing.notice,
+            };
+          }
+        }
         throw new Error("The Creative Advisor could not format a recommendation. Please try again.");
       }
       if (error instanceof Error) throw new Error(error.message);
