@@ -48,7 +48,12 @@ export function CreativeAdvisor({ compact = false }: { compact?: boolean }) {
 
   function update(field: keyof AdvisorForm, value: string) {
     setForm((current) => ({ ...current, [field]: value }));
-    setErrors((current) => ({ ...current, [field]: undefined, form: undefined }));
+    setErrors((current) => {
+      const next = { ...current };
+      delete next[field];
+      delete next.form;
+      return next;
+    });
   }
 
   async function handleSubmit(event: FormEvent<HTMLFormElement>) {
@@ -166,7 +171,7 @@ function Recommendation({ result, onReset }: { result: CreativeAdvisorResult; on
   );
 }
 
-function AdvisorField({ label, value, error, placeholder, onChange }: { label: string; value: string; error?: string; placeholder: string; onChange: (value: string) => void }) {
+function AdvisorField({ label, value, error, placeholder, onChange }: { label: string; value: string; error: string | undefined; placeholder: string; onChange: (value: string) => void }) {
   return (
     <label className="block text-sm">
       <span className="font-semibold text-primary">{label}</span>
@@ -176,7 +181,7 @@ function AdvisorField({ label, value, error, placeholder, onChange }: { label: s
   );
 }
 
-function AdvisorSelect({ label, value, error, options, placeholder, onChange }: { label: string; value: string; error?: string; options: string[]; placeholder: string; onChange: (value: string) => void }) {
+function AdvisorSelect({ label, value, error, options, placeholder, onChange }: { label: string; value: string; error: string | undefined; options: string[]; placeholder: string; onChange: (value: string) => void }) {
   return (
     <label className="block text-sm">
       <span className="font-semibold text-primary">{label}</span>
