@@ -2,3 +2,5 @@
 - [x] Build public project inquiry form with validation, regional budgets, and confirmation state
 - [x] Build authenticated owner inquiry dashboard with status updates
 - [x] Verify build, runtime, and public/admin access flows
+- [x] Add secure JIMZ Creative Advisor to homepage and services page
+- [x] Verify advisor validation, regional budget ranges, recommendation result, backend price, and required closing copy
