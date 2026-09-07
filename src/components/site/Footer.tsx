@@ -24,12 +24,12 @@ const columns = [
 
 export function Footer() {
   return (
-    <footer className="mt-24 bg-primary text-primary-foreground">
-      <div className="mx-auto max-w-7xl px-5 py-16 sm:px-8">
-        <div className="grid gap-12 md:grid-cols-[1.5fr_1fr_1fr]">
+    <footer className="mt-20 bg-primary text-primary-foreground sm:mt-28">
+      <div className="signal-rule mx-auto max-w-7xl px-5 py-14 sm:px-8 sm:py-20">
+        <div className="grid gap-12 md:grid-cols-[1.5fr_1fr_1fr] lg:gap-20">
           <div>
             <Logo variant="dark" />
-            <p className="mt-6 max-w-sm text-sm leading-relaxed text-primary-foreground/70">
+            <p className="mt-6 max-w-sm text-sm leading-7 text-primary-foreground/70">
               An AI creative and digital solutions company helping ambitious brands create faster,
               market smarter and grow.
             </p>
@@ -43,13 +43,13 @@ export function Footer() {
 
           {columns.map((col) => (
             <div key={col.title}>
-              <h2 className="eyebrow text-primary-foreground/50">{col.title}</h2>
-              <ul className="mt-5 space-y-3">
+            <h2 className="eyebrow text-primary-foreground/55">{col.title}</h2>
+              <ul className="mt-5 space-y-3.5">
                 {col.links.map((l) => (
                   <li key={l.to}>
                     <Link
                       to={l.to}
-                      className="text-sm text-primary-foreground/80 transition-colors hover:text-accent"
+                      className="text-sm text-primary-foreground/78 transition-colors hover:text-accent"
                     >
                       {l.label}
                     </Link>
@@ -60,7 +60,7 @@ export function Footer() {
           ))}
         </div>
 
-        <div className="mt-14 flex flex-col gap-4 border-t border-primary-foreground/15 pt-8 text-xs text-primary-foreground/60 sm:flex-row sm:items-center sm:justify-between">
+        <div className="mt-14 flex flex-col gap-5 border-t border-primary-foreground/15 pt-7 text-xs text-primary-foreground/60 sm:flex-row sm:items-center sm:justify-between">
           <p>© {new Date().getFullYear()} JIMZ AI. All rights reserved.</p>
           <ul className="flex gap-6">
             <li>

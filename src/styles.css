@@ -55,6 +55,8 @@
   --color-chart-3: var(--chart-3);
   --color-chart-4: var(--chart-4);
   --color-chart-5: var(--chart-5);
+  --shadow-soft: var(--shadow-soft-value);
+  --shadow-lift: var(--shadow-lift-value);
   --color-sidebar: var(--sidebar);
   --color-sidebar-foreground: var(--sidebar-foreground);
   --color-sidebar-primary: var(--sidebar-primary);
@@ -88,6 +90,8 @@
   --border: oklch(0.9 0.012 140);
   --input: oklch(0.9 0.012 140);
   --ring: oklch(0.383 0.089 158);
+  --shadow-soft-value: 0 16px 40px -28px color-mix(in oklab, var(--primary) 28%, transparent);
+  --shadow-lift-value: 0 24px 54px -30px color-mix(in oklab, var(--primary) 32%, transparent);
   --chart-1: oklch(0.646 0.222 41.116);
   --chart-2: oklch(0.6 0.118 184.704);
   --chart-3: oklch(0.398 0.07 227.392);
@@ -148,6 +152,17 @@
     color: var(--color-foreground);
     font-family: var(--font-sans);
     -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+  }
+
+  ::selection {
+    background: color-mix(in oklab, var(--color-accent) 28%, transparent);
+    color: var(--color-primary);
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--color-accent);
+    outline-offset: 3px;
   }
 
   h1,
@@ -165,6 +180,51 @@
   font-weight: 700;
   letter-spacing: 0.18em;
   text-transform: uppercase;
+}
+
+@utility signal-grid {
+  background-image: linear-gradient(
+      to right,
+      color-mix(in oklab, var(--color-primary) 7%, transparent) 1px,
+      transparent 1px
+    ),
+    linear-gradient(
+      to bottom,
+      color-mix(in oklab, var(--color-primary) 7%, transparent) 1px,
+      transparent 1px
+    );
+  background-size: 32px 32px;
+  mask-image: linear-gradient(to bottom, black, transparent 78%);
+}
+
+@utility signal-rule {
+  position: relative;
+  overflow: hidden;
+
+  &::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 0;
+    height: 1px;
+    width: 7rem;
+    background: var(--color-accent);
+    animation: signal-trace 4s ease-in-out infinite;
+  }
+}
+
+@utility surface-hover {
+  transition:
+    transform 300ms cubic-bezier(0.22, 1, 0.36, 1),
+    border-color 300ms ease,
+    box-shadow 300ms ease,
+    background-color 300ms ease;
+
+  &:hover {
+    transform: translateY(-4px);
+    border-color: color-mix(in oklab, var(--color-primary) 30%, var(--color-border));
+    box-shadow: var(--shadow-lift);
+  }
 }
 
 @utility rule-line {
@@ -186,6 +246,22 @@
   to {
     opacity: 1;
     transform: none;
+  }
+}
+
+@keyframes signal-trace {
+  0%,
+  100% {
+    transform: translateX(-110%);
+    opacity: 0;
+  }
+  18%,
+  68% {
+    opacity: 1;
+  }
+  86% {
+    transform: translateX(920%);
+    opacity: 0;
   }
 }
 
