@@ -149,7 +149,7 @@ function ContactPage() {
                   <Field label="Website" name="website" type="url" placeholder="https://" error={errors["website"]} />
                   <label className="block text-sm">
                     <span className="font-semibold text-primary">Country <span className="text-accent">*</span></span>
-                    <Input list="country-options" name="country" required defaultValue={region?.countryName ?? ""} className="mt-2 h-11" />
+                    <Input id="country" list="country-options" name="country" required defaultValue={region?.countryName ?? ""} className="mt-2 h-11" />
                     <datalist id="country-options">
                       {regions.map((item) => <option key={item.countryCode} value={item.countryName} />)}
                     </datalist>
@@ -165,7 +165,7 @@ function ContactPage() {
                   </SelectField>
                   <label className="block text-sm">
                     <span className="font-semibold text-primary">Desired delivery date</span>
-                    <Input name="desired_delivery_date" type="date" min={new Date().toISOString().split("T")[0]} className="mt-2 h-11" />
+                    <Input id="desired_delivery_date" name="desired_delivery_date" type="date" min={new Date().toISOString().split("T")[0]} className="mt-2 h-11" />
                     {errors["desired_delivery_date"] && <FieldError>{errors["desired_delivery_date"]}</FieldError>}
                   </label>
                   <SelectField label={`Estimated budget · ${currencyCode}`} name="estimated_budget" required error={errors["estimated_budget"]}>
@@ -221,33 +221,33 @@ function ContactPage() {
 
 function Field({ label, name, type = "text", required, placeholder, error }: { label: string; name: string; type?: string; required?: boolean; placeholder?: string; error?: string | undefined }) {
   return (
-    <label className="block text-sm">
-      <span className="font-semibold text-primary">{label} {required && <span className="text-accent">*</span>}</span>
-      <Input name={name} type={type} required={required} placeholder={placeholder} className="mt-2 h-11" />
+    <div className="block text-sm">
+      <label htmlFor={name} className="font-semibold text-primary">{label} {required && <span className="text-accent">*</span>}</label>
+      <Input id={name} name={name} type={type} required={required} placeholder={placeholder} className="mt-2 h-11" />
       {error && <FieldError>{error}</FieldError>}
-    </label>
+    </div>
   );
 }
 
 function SelectField({ label, name, required, error, children }: { label: string; name: string; required?: boolean; error?: string | undefined; children: ReactNode }) {
   return (
-    <label className="block text-sm">
-      <span className="font-semibold text-primary">{label} {required && <span className="text-accent">*</span>}</span>
-      <select name={name} required={required} defaultValue="" className="mt-2 h-11 w-full rounded-md border border-input bg-transparent px-3 text-sm text-ink outline-none focus-visible:ring-1 focus-visible:ring-ring">
+    <div className="block text-sm">
+      <label htmlFor={name} className="font-semibold text-primary">{label} {required && <span className="text-accent">*</span>}</label>
+      <select id={name} name={name} required={required} defaultValue="" className="mt-2 min-h-11 w-full rounded-sm border border-input bg-background px-3 text-sm text-ink outline-none transition-colors focus-visible:border-primary focus-visible:ring-2 focus-visible:ring-ring">
         {children}
       </select>
       {error && <FieldError>{error}</FieldError>}
-    </label>
+    </div>
   );
 }
 
 function TextField({ label, name, required, rows, placeholder, error }: { label: string; name: string; required?: boolean; rows?: number; placeholder?: string; error?: string | undefined }) {
   return (
-    <label className="block text-sm">
-      <span className="font-semibold text-primary">{label} {required && <span className="text-accent">*</span>}</span>
-      <Textarea name={name} required={required} rows={rows} placeholder={placeholder} className="mt-2 min-h-36 resize-y" />
+    <div className="block text-sm">
+      <label htmlFor={name} className="font-semibold text-primary">{label} {required && <span className="text-accent">*</span>}</label>
+      <Textarea id={name} name={name} required={required} rows={rows} placeholder={placeholder} className="mt-2 min-h-36 resize-y" />
       {error && <FieldError>{error}</FieldError>}
-    </label>
+    </div>
   );
 }
 

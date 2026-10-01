@@ -106,7 +106,7 @@ export function RegionSwitcher({ className = "" }: { className?: string }) {
         type="button"
         onClick={() => setOpen((v) => !v)}
         aria-expanded={open}
-        className="flex items-center gap-1.5 rounded-full border border-border px-3 py-1.5 text-[0.7rem] font-semibold tracking-wide text-muted-foreground transition-colors hover:border-primary/40 hover:text-primary"
+        className="flex min-h-11 items-center gap-1.5 rounded-sm border border-border bg-background px-3 text-[0.7rem] font-bold tracking-wide text-muted-foreground transition-[border-color,color,background-color,transform] hover:-translate-y-0.5 hover:border-primary/40 hover:bg-secondary hover:text-primary"
       >
         {isLoading || !region ? (
           <span className="animate-pulse">Detecting region…</span>
@@ -119,7 +119,7 @@ export function RegionSwitcher({ className = "" }: { className?: string }) {
       </button>
 
       {open && (
-        <div className="absolute right-0 z-50 mt-2 w-64 rounded-sm border border-border bg-card p-4 shadow-lg">
+        <div className="absolute right-0 z-50 mt-2 w-[min(18rem,calc(100vw-2.5rem))] rounded-sm border border-border bg-card p-4 shadow-lift">
           <p className="text-xs font-semibold uppercase tracking-widest text-muted-foreground">
             Change region
           </p>
@@ -138,7 +138,7 @@ export function RegionSwitcher({ className = "" }: { className?: string }) {
               setCountry(e.target.value || null);
               setOpen(false);
             }}
-            className="mt-3 w-full rounded-sm border border-border bg-background px-3 py-2 text-sm text-ink"
+            className="mt-3 min-h-11 w-full rounded-sm border border-border bg-background px-3 text-sm text-ink outline-none transition-colors focus:border-primary focus:ring-2 focus:ring-ring"
           >
             <option value="">Detect automatically</option>
             {regions.map((r) => (

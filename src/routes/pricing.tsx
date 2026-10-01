@@ -165,7 +165,7 @@ function PricingPage() {
             return (
               <article
                 key={plan.name}
-                className={`flex flex-col rounded-sm border p-8 transition-transform hover:-translate-y-1 ${
+                className={`surface-hover flex flex-col rounded-sm border p-7 sm:p-8 ${
                   plan.featured
                     ? "border-accent bg-card shadow-[0_24px_60px_-40px_rgba(7,91,58,0.6)]"
                     : "border-border bg-card"
@@ -239,7 +239,7 @@ function PricingPage() {
             {CUSTOM_PROJECT_TYPES.map(({ icon: Icon, label }) => (
               <li
                 key={label}
-                className="flex items-center gap-3 rounded-sm border border-border bg-card p-5 text-sm font-semibold text-primary transition-transform hover:-translate-y-0.5"
+                className="surface-hover flex items-center gap-3 rounded-sm border border-border bg-card p-5 text-sm font-semibold text-primary"
               >
                 <Icon className="h-5 w-5 shrink-0 text-accent" aria-hidden />
                 {label}
@@ -266,7 +266,7 @@ function PricingPage() {
             catalogue.map((s) => (
               <article
                 key={s.serviceId}
-                className="flex flex-col rounded-sm border border-border bg-card p-6 transition-transform hover:-translate-y-1"
+                className="surface-hover flex flex-col rounded-sm border border-border bg-card p-6"
               >
                 <span className="eyebrow text-accent">{s.category}</span>
                 <h3 className="mt-2 text-base font-bold text-primary">{s.serviceName}</h3>
