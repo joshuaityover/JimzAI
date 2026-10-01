@@ -94,11 +94,12 @@ export function CreativeAdvisor({ compact = false }: { compact?: boolean }) {
   }
 
   return (
-    <Section tone={compact ? "white" : "green"} className={compact ? "py-16 sm:py-20" : ""}>
-      <div className="grid gap-10 lg:grid-cols-[0.72fr_1.28fr] lg:items-start lg:gap-16">
+    <Section tone={compact ? "white" : "green"} className={compact ? "py-16 sm:py-20" : "relative overflow-hidden"}>
+      {!compact && <div className="signal-grid pointer-events-none absolute inset-y-0 right-0 w-1/2 opacity-40" aria-hidden />}
+      <div className="relative grid gap-10 lg:grid-cols-[0.72fr_1.28fr] lg:items-start lg:gap-16">
         <div className={compact ? "max-w-xl" : "max-w-2xl"}>
           <div className="flex items-center gap-3">
-            <span className="inline-flex h-10 w-10 items-center justify-center rounded-sm bg-accent text-accent-foreground">
+            <span className="inline-flex h-10 w-10 shrink-0 items-center justify-center rounded-sm bg-accent text-accent-foreground shadow-sm">
               <BrainCircuit className="h-5 w-5" aria-hidden />
             </span>
             <p className="eyebrow text-accent">JIMZ Creative Advisor</p>
@@ -115,7 +116,7 @@ export function CreativeAdvisor({ compact = false }: { compact?: boolean }) {
           </div>
         </div>
 
-        <div className={`rounded-sm border p-6 sm:p-8 ${compact ? "border-border bg-background" : "border-primary-foreground/15 bg-primary-foreground/[0.06]"}`}>
+        <div className={`rounded-sm border p-5 shadow-soft sm:p-8 ${compact ? "border-border bg-background" : "border-primary-foreground/15 bg-primary-foreground/[0.06]"}`}>
           {result ? (
             <Recommendation result={result} onReset={() => setResult(null)} />
           ) : (
@@ -182,7 +183,7 @@ function AdvisorField({ label, value, error, placeholder, onChange }: { label: s
   return (
     <label className="block text-sm">
       <span className="font-semibold text-primary">{label}</span>
-      <input value={value} onChange={(event) => onChange(event.target.value)} placeholder={placeholder} className="mt-2 h-11 w-full rounded-md border border-input bg-background px-3 text-sm text-ink outline-none placeholder:text-muted-foreground focus-visible:ring-1 focus-visible:ring-ring" />
+      <input id={label} value={value} onChange={(event) => onChange(event.target.value)} placeholder={placeholder} aria-invalid={Boolean(error)} className="mt-2 min-h-11 w-full rounded-sm border border-input bg-background px-3 text-sm text-ink outline-none placeholder:text-muted-foreground transition-colors focus-visible:border-primary focus-visible:ring-2 focus-visible:ring-ring" />
       {error && <span className="mt-1 block text-xs text-destructive" role="alert">{error}</span>}
     </label>
   );
@@ -192,7 +193,7 @@ function AdvisorSelect({ label, value, error, options, placeholder, onChange }: 
   return (
     <label className="block text-sm">
       <span className="font-semibold text-primary">{label}</span>
-      <select value={value} onChange={(event) => onChange(event.target.value)} className="mt-2 h-11 w-full rounded-md border border-input bg-background px-3 text-sm text-ink outline-none focus-visible:ring-1 focus-visible:ring-ring">
+      <select id={label} value={value} onChange={(event) => onChange(event.target.value)} aria-invalid={Boolean(error)} className="mt-2 min-h-11 w-full rounded-sm border border-input bg-background px-3 text-sm text-ink outline-none transition-colors focus-visible:border-primary focus-visible:ring-2 focus-visible:ring-ring">
         <option value="">{placeholder}</option>
         {options.map((option) => {
           const item = typeof option === "string" ? { value: option, label: option } : option;

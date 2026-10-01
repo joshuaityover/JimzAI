@@ -62,8 +62,8 @@ function PortfolioPage() {
               role="tab"
               aria-selected={filter === cat}
               onClick={() => setFilter(cat)}
-              className={cn(
-                "rounded-sm border px-4 py-2 text-[0.7rem] font-bold uppercase tracking-[0.14em] transition-all duration-300",
+            className={cn(
+                "min-h-11 rounded-sm border px-4 py-2 text-[0.7rem] font-bold uppercase tracking-[0.14em] transition-[background-color,border-color,color,transform] duration-300",
                 filter === cat
                   ? "border-accent bg-accent text-accent-foreground"
                   : "border-border text-ink/60 hover:border-primary/40 hover:text-primary",
@@ -78,7 +78,7 @@ function PortfolioPage() {
           {visible.map((project) => (
             <article
               key={project.slug}
-              className="group overflow-hidden rounded-sm border border-border bg-card transition-all duration-500 hover:-translate-y-1 hover:border-primary/30 hover:shadow-[0_28px_60px_-40px_color-mix(in_oklab,var(--primary)_60%,transparent)]"
+                className="surface-hover group overflow-hidden rounded-sm border border-border bg-card"
             >
               <Link
                 to="/ai-video-content/$slug"

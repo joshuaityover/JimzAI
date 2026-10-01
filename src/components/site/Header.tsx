@@ -66,7 +66,9 @@ export function Header() {
                 key={item.to}
                 to={item.to}
                 onClick={() => setOpen(false)}
-                className="border-b border-border/60 py-3.5 text-base font-semibold text-ink/80 transition-colors hover:text-primary"
+                activeOptions={{ exact: item.to === "/" }}
+                activeProps={{ className: "border-b border-border/60 py-3.5 text-base font-bold text-primary" }}
+                inactiveProps={{ className: "border-b border-border/60 py-3.5 text-base font-semibold text-ink/80 transition-colors hover:text-primary" }}
               >
                 {item.label}
               </Link>

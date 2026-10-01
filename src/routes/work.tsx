@@ -39,7 +39,7 @@ function WorkPage() {
           {workItems.map((item) => (
             <article
               key={item.title}
-              className="group overflow-hidden rounded-sm border border-border bg-card"
+              className="surface-hover group overflow-hidden rounded-sm border border-border bg-card"
             >
               <div className="relative aspect-[16/10] overflow-hidden">
                 <img
