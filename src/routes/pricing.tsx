@@ -167,7 +167,7 @@ function PricingPage() {
                 key={plan.name}
                 className={`surface-hover flex flex-col rounded-sm border p-7 sm:p-8 ${
                   plan.featured
-                    ? "border-accent bg-card shadow-[0_24px_60px_-40px_rgba(7,91,58,0.6)]"
+                    ? "border-accent bg-card shadow-lift"
                     : "border-border bg-card"
                 }`}
               >
