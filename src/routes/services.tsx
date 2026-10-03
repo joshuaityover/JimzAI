@@ -50,7 +50,7 @@ function ServicesPage() {
             <article
               key={service.slug}
               id={service.slug}
-              className="group grid overflow-hidden rounded-sm border border-border bg-card transition-all duration-500 hover:-translate-y-1 hover:border-primary/30 hover:shadow-[0_28px_60px_-40px_color-mix(in_oklab,var(--primary)_60%,transparent)] lg:grid-cols-2"
+              className="surface-hover group grid overflow-hidden rounded-sm border border-border bg-card lg:grid-cols-2"
             >
               <div className={cn("relative overflow-hidden bg-primary", i % 2 === 1 && "lg:order-2")}>
                 <img

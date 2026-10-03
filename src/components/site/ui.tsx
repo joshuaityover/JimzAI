@@ -87,7 +87,7 @@ export function CtaLink({
     <Link
       to={to}
       className={cn(
-        "inline-flex min-h-12 items-center gap-2 rounded-sm px-6 py-3 text-sm font-bold transition-[background-color,border-color,color,box-shadow,transform] duration-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2",
+        "inline-flex min-h-12 items-center gap-2 rounded-sm px-6 py-3 text-sm font-bold transition-[background-color,border-color,color,box-shadow,transform] duration-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2 focus-visible:ring-offset-background active:translate-y-px",
         styles[variant],
       )}
     >

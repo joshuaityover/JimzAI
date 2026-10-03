@@ -90,7 +90,7 @@ function Hero() {
             fetchPriority="high"
             className="aspect-[4/3] w-full rounded-sm object-cover"
           />
-          <div className="absolute -bottom-6 left-4 hidden w-64 rounded-sm border border-border bg-background p-5 shadow-[0_24px_60px_-40px_rgba(7,91,58,0.5)] sm:block">
+          <div className="absolute -bottom-6 left-4 hidden w-64 rounded-sm border border-border bg-background p-5 shadow-lift sm:block">
             <p className="eyebrow text-accent">Now producing</p>
             <p className="mt-2 text-sm font-semibold text-primary">
               AI video, UGC ads and product content
