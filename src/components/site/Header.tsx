@@ -50,6 +50,7 @@ export function Header() {
             type="button"
             className="inline-flex min-h-11 min-w-11 items-center justify-center rounded-sm text-primary transition-colors hover:bg-secondary lg:hidden"
             aria-expanded={open}
+            aria-controls="mobile-primary-navigation"
             aria-label={open ? "Close menu" : "Open menu"}
             onClick={() => setOpen((v) => !v)}
           >
@@ -60,7 +61,7 @@ export function Header() {
 
       {open && (
         <div className="border-t border-border bg-background lg:hidden">
-          <nav aria-label="Mobile" className="mx-auto flex max-w-7xl flex-col px-5 py-3 sm:px-8">
+          <nav id="mobile-primary-navigation" aria-label="Mobile" className="mx-auto flex max-w-7xl flex-col px-5 py-3 sm:px-8">
             {nav.map((item) => (
               <Link
                 key={item.to}
@@ -78,7 +79,7 @@ export function Header() {
               <Link
                 to="/contact"
                 onClick={() => setOpen(false)}
-                className="inline-flex min-h-11 items-center justify-center rounded-sm bg-accent px-5 text-sm font-bold text-accent-foreground"
+                className="inline-flex min-h-11 items-center justify-center rounded-sm bg-accent px-5 text-sm font-bold text-accent-foreground transition-[background-color,box-shadow,transform] hover:-translate-y-0.5 hover:bg-accent/90 hover:shadow-md"
               >
                 Start a Project
               </Link>

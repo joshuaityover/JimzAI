@@ -4,3 +4,5 @@
 - [x] Verify build, runtime, and public/admin access flows
 - [x] Add secure JIMZ Creative Advisor to homepage and services page
 - [x] Verify advisor validation, regional budget ranges, recommendation result, backend price, and required closing copy
+- [x] Refine shared typography, spacing, controls, cards, motion, and responsive navigation
+- [x] Verify public routes, mobile navigation, contact validation, portfolio filters, and overflow
