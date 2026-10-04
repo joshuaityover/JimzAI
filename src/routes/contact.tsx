@@ -147,14 +147,14 @@ function ContactPage() {
                   <Field label="Business / company name" name="company_name" required error={errors["company_name"]} />
                   <Field label="Business email" name="business_email" type="email" required error={errors["business_email"]} />
                   <Field label="Website" name="website" type="url" placeholder="https://" error={errors["website"]} />
-                  <label className="block text-sm">
-                    <span className="font-semibold text-primary">Country <span className="text-accent">*</span></span>
+                  <div className="block text-sm">
+                    <label htmlFor="country" className="font-semibold text-primary">Country <span className="text-accent">*</span></label>
                     <Input id="country" list="country-options" name="country" required defaultValue={region?.countryName ?? ""} className="mt-2 h-11" />
                     <datalist id="country-options">
                       {regions.map((item) => <option key={item.countryCode} value={item.countryName} />)}
                     </datalist>
                     {errors["country"] && <FieldError>{errors["country"]}</FieldError>}
-                  </label>
+                  </div>
                   <SelectField label="Service needed" name="service_needed" required error={errors["service_needed"]}>
                     <option value="">Select a service</option>
                     {inquiryServices.map((service) => <option key={service}>{service}</option>)}
@@ -163,11 +163,11 @@ function ContactPage() {
                     <option value="">Select a project type</option>
                     {inquiryProjectTypes.map((type) => <option key={type}>{type}</option>)}
                   </SelectField>
-                  <label className="block text-sm">
-                    <span className="font-semibold text-primary">Desired delivery date</span>
+                  <div className="block text-sm">
+                    <label htmlFor="desired_delivery_date" className="font-semibold text-primary">Desired delivery date</label>
                     <Input id="desired_delivery_date" name="desired_delivery_date" type="date" min={new Date().toISOString().split("T")[0]} className="mt-2 h-11" />
                     {errors["desired_delivery_date"] && <FieldError>{errors["desired_delivery_date"]}</FieldError>}
-                  </label>
+                  </div>
                   <SelectField label={`Estimated budget · ${currencyCode}`} name="estimated_budget" required error={errors["estimated_budget"]}>
                     <option value="">Choose an approximate range</option>
                     {budgetTiers.map((tier) => (
