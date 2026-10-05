@@ -4,39 +4,54 @@ import { CtaLink, Section, SectionHeading } from "@/components/site/ui";
 import { differentiators, processSteps, services } from "@/lib/site-data";
 import { workItems } from "@/components/site/work-data";
 import { CreativeAdvisor } from "@/components/site/CreativeAdvisor";
+import { pageHead, SITE_URL } from "@/lib/seo";
 
 export const Route = createFileRoute("/")({
   head: () => ({
-    meta: [
-      { title: "JIMZ AI — AI Creative & Digital Solutions" },
-      {
-        name: "description",
-        content:
-          "JIMZ AI is an AI creative and digital solutions company producing AI video, content and automation for ambitious brands worldwide.",
-      },
-      { property: "og:title", content: "JIMZ AI — AI Creative & Digital Solutions" },
-      {
-        property: "og:description",
-        content:
-          "AI-powered content and digital solutions designed to help ambitious brands create faster, market smarter and grow.",
-      },
-      { property: "og:type", content: "website" },
-      { property: "og:url", content: "/" },
-      { name: "twitter:card", content: "summary_large_image" },
-    ],
-    links: [{ rel: "canonical", href: "/" }],
+    ...pageHead({
+      title: "JIMZ AI | AI Creative & Digital Solutions",
+      description:
+        "JIMZ AI helps businesses create AI-powered video content, advertising, digital experiences and intelligent business solutions.",
+      path: "/",
+    }),
     scripts: [
       {
         type: "application/ld+json",
         children: JSON.stringify({
           "@context": "https://schema.org",
-          "@type": "Organization",
-          name: "JIMZ AI",
-          slogan: "AI Creative & Digital Solutions",
-          description:
-            "AI creative and digital solutions company producing AI video, content and business automation.",
-          founder: { "@type": "Person", name: "Joshua Ityover Mishi" },
-          email: "hello@jimzai.com",
+          "@graph": [
+            {
+              "@type": "Organization",
+              "@id": `${SITE_URL}/#organization`,
+              name: "JIMZ AI",
+              url: SITE_URL,
+              logo: `${SITE_URL}/favicon.png`,
+              slogan: "AI Creative & Digital Solutions",
+              description:
+                "International AI creative and digital solutions company providing AI video production, AI UGC, AI advertising, AI automation, consulting and training.",
+              founder: { "@type": "Person", name: "Joshua Ityover Mishi" },
+              email: "hello@jimzai.com",
+              areaServed: "Worldwide",
+              knowsAbout: [
+                "AI Video Production",
+                "AI UGC",
+                "AI Advertising",
+                "AI Spokesperson Videos",
+                "AI Product Content",
+                "AI Social Media Content",
+                "AI Automation",
+                "AI Consulting",
+                "AI Training",
+              ],
+            },
+            {
+              "@type": "WebSite",
+              "@id": `${SITE_URL}/#website`,
+              url: SITE_URL,
+              name: "JIMZ AI",
+              publisher: { "@id": `${SITE_URL}/#organization` },
+            },
+          ],
         }),
       },
     ],

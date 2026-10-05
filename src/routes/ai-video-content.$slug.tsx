@@ -2,6 +2,7 @@ import { createFileRoute, Link, notFound } from "@tanstack/react-router";
 import { Play } from "lucide-react";
 import { CtaLink, Section, SectionHeading } from "@/components/site/ui";
 import { getProject } from "@/lib/portfolio-data";
+import { breadcrumbLd, pageHead, SITE_URL } from "@/lib/seo";
 
 export const Route = createFileRoute("/ai-video-content/$slug")({
   loader: ({ params }) => {
@@ -14,15 +15,35 @@ export const Route = createFileRoute("/ai-video-content/$slug")({
       return { meta: [{ title: "Project unavailable — JIMZ AI" }, { name: "robots", content: "noindex" }] };
     }
     const { project } = loaderData;
-    const title = `${project.title} — ${project.subtitle} | JIMZ AI`;
+    const path = `/ai-video-content/${project.slug}`;
+    const head = pageHead({
+      title: `${project.title}: ${project.subtitle} | JIMZ AI Concept`,
+      description: project.summary,
+      path,
+      type: "article",
+    });
     return {
-      meta: [
-        { title },
-        { name: "description", content: project.summary },
-        { property: "og:title", content: title },
-        { property: "og:description", content: project.summary },
-        { property: "og:type", content: "article" },
-        { name: "twitter:card", content: "summary_large_image" },
+      ...head,
+      scripts: [
+        {
+          type: "application/ld+json",
+          children: JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "CreativeWork",
+            name: project.title,
+            headline: `${project.title}: ${project.subtitle}`,
+            description: project.summary,
+            genre: project.primaryCategory,
+            url: `${SITE_URL}${path}`,
+            creator: { "@type": "Organization", name: "JIMZ AI", url: SITE_URL },
+            keywords: project.categories.join(", "),
+          }),
+        },
+        breadcrumbLd([
+          { name: "Home", path: "/" },
+          { name: "AI Video & Content", path: "/ai-video-content" },
+          { name: project.title, path },
+        ]),
       ],
     };
   },
@@ -76,7 +97,7 @@ function ProjectPage() {
             <img
               src={project.image}
               alt={project.alt}
-              loading="lazy"
+              fetchPriority="high"
               decoding="async"
               width={1280}
               height={720}

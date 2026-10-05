@@ -3,27 +3,14 @@ import { Check, Clapperboard, Globe, Layers, Megaphone, Package, RefreshCw, Rock
 import { countryFlag, useRegion } from "@/components/site/region";
 import { PRICING_DISCLAIMER, pricingTypeLabel } from "@/lib/pricing-types";
 import { CtaLink, PageHero, Section, SectionHeading } from "@/components/site/ui";
+import { pageHead } from "@/lib/seo";
 
 export const Route = createFileRoute("/pricing")({
-  head: () => ({
-    meta: [
-      { title: "Pricing — JIMZ AI" },
-      {
-        name: "description",
-        content:
-          "Flexible AI content solutions for every stage of growth — regional pricing in your local currency, from single campaigns to ongoing content production.",
-      },
-      { property: "og:title", content: "Pricing — JIMZ AI" },
-      {
-        property: "og:description",
-        content:
-          "Flexible AI content solutions for every stage of growth, priced in your local currency.",
-      },
-      { property: "og:type", content: "website" },
-      { property: "og:url", content: "/pricing" },
-      { name: "twitter:card", content: "summary_large_image" },
-    ],
-    links: [{ rel: "canonical", href: "/pricing" }],
+  head: () => pageHead({
+    title: "AI Video & Content Pricing | JIMZ AI",
+    description:
+      "Transparent starting prices for AI video and content packages, shown in your local currency — from single campaigns to ongoing production.",
+    path: "/pricing",
   }),
   component: PricingPage,
 });

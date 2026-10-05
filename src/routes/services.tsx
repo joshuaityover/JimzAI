@@ -5,26 +5,41 @@ import { serviceCategories } from "@/lib/services-data";
 import { CtaLink, PageHero, Section, SectionHeading } from "@/components/site/ui";
 import { cn } from "@/lib/utils";
 import { CreativeAdvisor } from "@/components/site/CreativeAdvisor";
+import { pageHead } from "@/lib/seo";
 
 export const Route = createFileRoute("/services")({
   head: () => ({
-    meta: [
-      { title: "AI Services for Brands — JIMZ AI" },
+    ...pageHead({
+      title: "AI Video, Advertising & Automation Services | JIMZ AI",
+      description:
+        "AI video production, UGC, advertising, spokesperson videos, product and social content, plus AI automation, consulting and training for businesses worldwide.",
+      path: "/services",
+    }),
+    scripts: [
       {
-        name: "description",
-        content:
-          "AI video production, UGC advertising, spokesperson videos, product content, social content and business automation from JIMZ AI.",
+        type: "application/ld+json",
+        children: JSON.stringify({
+          "@context": "https://schema.org",
+          "@type": "ItemList",
+          name: "JIMZ AI services",
+          itemListElement: [
+            "AI Video Production",
+            "AI UGC",
+            "AI Advertising",
+            "AI Spokesperson Videos",
+            "AI Product Content",
+            "AI Social Media Content",
+            "AI Automation",
+            "AI Consulting",
+            "AI Training",
+          ].map((name, i) => ({
+            "@type": "ListItem",
+            position: i + 1,
+            item: { "@type": "Service", name, provider: { "@type": "Organization", name: "JIMZ AI" }, areaServed: "Worldwide" },
+          })),
+        }),
       },
-      { property: "og:title", content: "AI Services for Brands — JIMZ AI" },
-      {
-        property: "og:description",
-        content: "Explore the AI creative and digital services JIMZ AI delivers for ambitious brands.",
-      },
-      { property: "og:type", content: "website" },
-      { property: "og:url", content: "/services" },
-      { name: "twitter:card", content: "summary_large_image" },
     ],
-    links: [{ rel: "canonical", href: "/services" }],
   }),
   component: ServicesPage,
 });

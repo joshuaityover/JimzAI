@@ -14,25 +14,14 @@ import {
   type InquiryInput,
 } from "@/lib/inquiry-schema";
 import { submitProjectInquiry } from "@/lib/inquiry.functions";
+import { pageHead } from "@/lib/seo";
 
 export const Route = createFileRoute("/contact")({
-  head: () => ({
-    meta: [
-      { title: "Start a Project — JIMZ AI" },
-      {
-        name: "description",
-        content:
-          "Tell JIMZ AI what you are trying to create and receive a clear production plan for your next AI creative or digital project.",
-      },
-      { property: "og:title", content: "Start a Project — JIMZ AI" },
-      {
-        property: "og:description",
-        content: "Share your brief with JIMZ AI and start building something intelligent.",
-      },
-      { property: "og:type", content: "website" },
-      { name: "twitter:card", content: "summary_large_image" },
-    ],
-    links: [{ rel: "canonical", href: "/contact" }],
+  head: () => pageHead({
+    title: "Start an AI Project | Contact JIMZ AI",
+    description:
+      "Share your brief with JIMZ AI and receive a clear production plan for AI video, advertising, content, automation or training.",
+    path: "/contact",
   }),
   component: ContactPage,
 });
@@ -117,9 +106,9 @@ function ContactPage() {
               <div className="border border-primary/15 bg-card p-8 sm:p-12">
                 <CheckCircle2 className="h-10 w-10 text-accent" aria-hidden />
                 <p className="eyebrow mt-8 text-accent">Request received</p>
-                <h1 className="mt-4 max-w-xl text-3xl font-bold leading-tight text-primary sm:text-4xl">
+                <h2 className="mt-4 max-w-xl text-3xl font-bold leading-tight text-primary sm:text-4xl">
                   Thank you. Your project request has been received.
-                </h1>
+                </h2>
                 <p className="mt-5 max-w-lg text-base leading-relaxed text-ink/70">
                   We&apos;ll review the brief and come back with the right next step, scope and timing.
                 </p>

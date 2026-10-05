@@ -4,25 +4,32 @@ import { ArrowRight, Play } from "lucide-react";
 import { CtaLink, PageHero, Section, SectionHeading } from "@/components/site/ui";
 import { portfolioCategories, projects, type PortfolioCategory } from "@/lib/portfolio-data";
 import { cn } from "@/lib/utils";
+import { pageHead, SITE_URL } from "@/lib/seo";
 
 export const Route = createFileRoute("/ai-video-content/")({
   head: () => ({
-    meta: [
-      { title: "AI Video & Content Portfolio — JIMZ AI" },
+    ...pageHead({
+      title: "AI Video & Content Portfolio | JIMZ AI",
+      description:
+        "Concept AI video projects by JIMZ AI: UGC ads, commercials, spokesperson videos, product ads, social content and faceless video for global brands.",
+      path: "/ai-video-content",
+    }),
+    scripts: [
       {
-        name: "description",
-        content:
-          "Cinematic AI video concept projects from JIMZ AI: UGC ads, commercials, spokesperson videos, product ads, social content and faceless video.",
+        type: "application/ld+json",
+        children: JSON.stringify({
+          "@context": "https://schema.org",
+          "@type": "CollectionPage",
+          name: "AI Video & Content Portfolio",
+          url: `${SITE_URL}/ai-video-content`,
+          hasPart: projects.map((p) => ({
+            "@type": "CreativeWork",
+            name: p.title,
+            url: `${SITE_URL}/ai-video-content/${p.slug}`,
+          })),
+        }),
       },
-      { property: "og:title", content: "AI Video & Content Portfolio — JIMZ AI" },
-      {
-        property: "og:description",
-        content: "Explore JIMZ AI concept films across UGC, commercials, spokesperson and product advertising.",
-      },
-      { property: "og:type", content: "website" },
-      { name: "twitter:card", content: "summary_large_image" },
     ],
-    links: [{ rel: "canonical", href: "/ai-video-content" }],
   }),
   component: PortfolioPage,
 });
