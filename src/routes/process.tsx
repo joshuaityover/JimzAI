@@ -1,26 +1,14 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { processSteps } from "@/lib/site-data";
 import { CtaLink, PageHero, Section, SectionHeading } from "@/components/site/ui";
+import { pageHead } from "@/lib/seo";
 
 export const Route = createFileRoute("/process")({
-  head: () => ({
-    meta: [
-      { title: "Our Process — JIMZ AI" },
-      {
-        name: "description",
-        content:
-          "Discover, strategize, create, refine, deliver: the five-step JIMZ AI production process behind every AI content engagement.",
-      },
-      { property: "og:title", content: "Our Process — JIMZ AI" },
-      {
-        property: "og:description",
-        content: "How JIMZ AI takes a brief from discovery to delivered AI-produced content.",
-      },
-      { property: "og:type", content: "website" },
-      { property: "og:url", content: "/process" },
-      { name: "twitter:card", content: "summary_large_image" },
-    ],
-    links: [{ rel: "canonical", href: "/process" }],
+  head: () => pageHead({
+    title: "Our AI Production Process | JIMZ AI",
+    description:
+      "How JIMZ AI moves from brief to delivery: discover, strategize, create, refine and deliver AI video and content with clear checkpoints.",
+    path: "/process",
   }),
   component: ProcessPage,
 });

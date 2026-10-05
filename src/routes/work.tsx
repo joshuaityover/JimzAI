@@ -1,26 +1,14 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { CtaLink, PageHero, Section, SectionHeading } from "@/components/site/ui";
 import { workItems } from "@/components/site/work-data";
+import { pageHead } from "@/lib/seo";
 
 export const Route = createFileRoute("/work")({
-  head: () => ({
-    meta: [
-      { title: "Selected Work — JIMZ AI" },
-      {
-        name: "description",
-        content:
-          "A look at the AI video, advertising, product and automation work produced by the JIMZ AI studio.",
-      },
-      { property: "og:title", content: "Selected Work — JIMZ AI" },
-      {
-        property: "og:description",
-        content: "Concept films, UGC ad systems, spokesperson videos and product content by JIMZ AI.",
-      },
-      { property: "og:type", content: "website" },
-      { property: "og:url", content: "/work" },
-      { name: "twitter:card", content: "summary_large_image" },
-    ],
-    links: [{ rel: "canonical", href: "/work" }],
+  head: () => pageHead({
+    title: "Selected AI Creative Work | JIMZ AI",
+    description:
+      "Studio concept pieces from JIMZ AI showing AI video, UGC ad systems, spokesperson videos and AI product content.",
+    path: "/work",
   }),
   component: WorkPage,
 });

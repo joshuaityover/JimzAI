@@ -7,26 +7,16 @@ import {
   AccordionTrigger,
 } from "@/components/ui/accordion";
 import { CtaLink, PageHero, Section, SectionHeading } from "@/components/site/ui";
+import { pageHead } from "@/lib/seo";
 
 export const Route = createFileRoute("/faq")({
   head: () => ({
-    meta: [
-      { title: "Frequently Asked Questions — JIMZ AI" },
-      {
-        name: "description",
-        content:
-          "Answers about AI video production, brand safety, timelines, international delivery and pricing at JIMZ AI.",
-      },
-      { property: "og:title", content: "Frequently Asked Questions — JIMZ AI" },
-      {
-        property: "og:description",
-        content: "Common questions about working with JIMZ AI on AI creative and digital projects.",
-      },
-      { property: "og:type", content: "website" },
-      { property: "og:url", content: "/faq" },
-      { name: "twitter:card", content: "summary_large_image" },
-    ],
-    links: [{ rel: "canonical", href: "/faq" }],
+    ...pageHead({
+      title: "AI Video & Content FAQ | JIMZ AI",
+      description:
+        "Answers about JIMZ AI video production, brand safety, timelines, worldwide delivery and pricing.",
+      path: "/faq",
+    }),
     scripts: [
       {
         type: "application/ld+json",

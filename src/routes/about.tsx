@@ -1,4 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
+import { pageHead } from "@/lib/seo";
 import founder from "@/assets/joshua-mishi.jpg";
 import aboutHero from "@/assets/about-hero.jpg";
 import { CtaLink, Section, SectionHeading } from "@/components/site/ui";
@@ -16,27 +17,12 @@ import {
 
 export const Route = createFileRoute("/about")({
   head: () => ({
-    meta: [
-      { title: "About JIMZ AI — Built by a Creator. Driven by Technology." },
-      {
-        name: "description",
-        content:
-          "JIMZ AI is an international AI creative and digital solutions company founded by Joshua Ityover Mishi, helping ambitious brands create faster with artificial intelligence.",
-      },
-      {
-        property: "og:title",
-        content: "About JIMZ AI — Built by a Creator. Driven by Technology.",
-      },
-      {
-        property: "og:description",
-        content:
-          "Meet the founder and philosophy behind JIMZ AI, the AI creative and digital solutions company built for a global market.",
-      },
-      { property: "og:type", content: "website" },
-      { property: "og:url", content: "/about" },
-      { name: "twitter:card", content: "summary_large_image" },
-    ],
-    links: [{ rel: "canonical", href: "/about" }],
+    ...pageHead({
+      title: "About JIMZ AI | Founder & Company Story",
+      description:
+        "Meet JIMZ AI, an international AI creative and digital solutions company founded by Joshua Ityover Mishi to turn AI into practical business results.",
+      path: "/about",
+    }),
     scripts: [
       {
         type: "application/ld+json",
@@ -105,7 +91,7 @@ function AboutPage() {
       <section className="relative overflow-hidden bg-primary py-20 sm:py-28 lg:py-32">
         <img
           src={aboutHero}
-          alt=""
+          alt="Abstract deep green technology texture behind the About JIMZ AI introduction"
           loading="eager"
           width={1536}
           height={1024}
