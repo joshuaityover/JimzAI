@@ -8,3 +8,5 @@
 > Commits you push to the connected branch sync back to Lovable and show up in
 > the editor, so keep the branch in a working state.
 <!-- LOVABLE:END -->
+
+- Keep locale state and detection in a shared provider with per-locale translation resources so the site can add languages without duplicating routes.
