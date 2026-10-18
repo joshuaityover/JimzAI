@@ -1,3 +1,5 @@
+import enMessages from "./locales/en";
+
 export const localeCatalog = [
   { code: "en", nativeName: "English" },
   { code: "fr", nativeName: "Français" },
@@ -14,22 +16,24 @@ export const localeCatalog = [
 ] as const;
 
 export type Locale = (typeof localeCatalog)[number]["code"];
+export type LocaleMessages = typeof enMessages;
 export const localeStorageKey = "jimz-language";
 export const fallbackLocale: Locale = "en";
 
-// Only add a locale here after all public-facing content has complete, reviewed translations.
-const completeLocaleDictionaries: Partial<Record<Locale, true>> = { en: true };
+// Add a locale here only when every public-facing page has complete, reviewed translations.
+const completeDictionaries: Partial<Record<Locale, LocaleMessages>> = { en: enMessages };
+export const supportedLocales = Object.keys(completeDictionaries) as Locale[];
 
 export function isLocaleSupported(locale: Locale): boolean {
-  return completeLocaleDictionaries[locale] === true;
+  return completeDictionaries[locale] !== undefined;
 }
 
 export function matchSupportedLocale(value: string | null | undefined): Locale | undefined {
   if (!value) return undefined;
   const normalized = value.replaceAll("_", "-").toLowerCase();
   const exact = localeCatalog.find((item) => item.code.toLowerCase() === normalized);
-  const language = normalized.split("-")[0];
-  const match = exact ?? localeCatalog.find((item) => item.code.toLowerCase() === language);
+  const baseLanguage = normalized.split("-")[0];
+  const match = exact ?? localeCatalog.find((item) => item.code.toLowerCase() === baseLanguage);
   return match && isLocaleSupported(match.code) ? match.code : undefined;
 }
 
@@ -41,8 +45,8 @@ export function detectPreferredLocale(
   if (saved) return saved;
 
   for (const browserLanguage of browserLanguages) {
-    const match = matchSupportedLocale(browserLanguage);
-    if (match) return match;
+    const browserMatch = matchSupportedLocale(browserLanguage);
+    if (browserMatch) return browserMatch;
   }
 
   return fallbackLocale;
@@ -50,4 +54,8 @@ export function detectPreferredLocale(
 
 export function localeDirection(locale: Locale): "ltr" | "rtl" {
   return locale === "ar" ? "rtl" : "ltr";
+}
+
+export function getMessages(locale: Locale): LocaleMessages {
+  return completeDictionaries[locale] ?? enMessages;
 }
