@@ -3,6 +3,7 @@ import { useState } from "react";
 import { Menu, X } from "lucide-react";
 import { Logo } from "./Logo";
 import { RegionSwitcher } from "./region";
+import { LanguageSwitcher } from "./LanguageSwitcher";
 
 const nav = [
   { label: "Home", to: "/" },
@@ -37,6 +38,7 @@ export function Header() {
         </nav>
 
         <div className="flex items-center gap-3">
+          <LanguageSwitcher className="hidden lg:block" />
           <RegionSwitcher className="hidden sm:block" />
 
           <Link
@@ -75,6 +77,7 @@ export function Header() {
               </Link>
             ))}
             <div className="mt-4 grid gap-3 sm:flex sm:items-center sm:justify-between">
+              <LanguageSwitcher />
               <RegionSwitcher />
               <Link
                 to="/contact"

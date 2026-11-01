@@ -16,6 +16,7 @@ import { Header } from "../components/site/Header";
 import { Footer } from "../components/site/Footer";
 import { RegionProvider } from "../components/site/region";
 import { Toaster } from "../components/ui/sonner";
+import { LocaleProvider } from "@/i18n/LocaleProvider";
 
 function NotFoundComponent() {
   return (
@@ -134,15 +135,17 @@ function RootComponent() {
   return (
     <QueryClientProvider client={queryClient}>
       <RegionProvider>
-        <div className="flex min-h-screen flex-col">
-          <Header />
-          <main className="flex-1">
-            {/* Required: nested routes render here. Removing <Outlet /> breaks all child routes. */}
-            <Outlet />
-          </main>
-          <Footer />
-          <Toaster />
-        </div>
+        <LocaleProvider>
+          <div className="flex min-h-screen flex-col">
+            <Header />
+            <main className="flex-1">
+              {/* Required: nested routes render here. Removing <Outlet /> breaks all child routes. */}
+              <Outlet />
+            </main>
+            <Footer />
+            <Toaster />
+          </div>
+        </LocaleProvider>
       </RegionProvider>
     </QueryClientProvider>
   );

@@ -6,4 +6,5 @@
 - [x] Verify advisor validation, regional budget ranges, recommendation result, backend price, and required closing copy
 - [x] Refine shared typography, spacing, controls, cards, motion, and responsive navigation
 - [x] Verify public routes, mobile navigation, contact validation, portfolio filters, and overflow
-- [ ] Implement multilingual website support (blocked: awaiting translation approach — reviewed translations, draft translations, or machine translation)
+- [ ] Complete full-site translations for French, Spanish, Portuguese, German, Arabic, Simplified Chinese, Hindi, Swahili, Hausa, Yoruba, and Igbo (blocked: reviewed translation content has not been supplied)
+- [x] Add language preference, browser detection, English fallback, shared locale state, and a header selector that labels unfinished languages unavailable
