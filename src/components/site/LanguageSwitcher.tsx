@@ -4,6 +4,7 @@ import { useLocale } from "@/i18n/LocaleProvider";
 import {
   Select,
   SelectContent,
+  SelectGroup,
   SelectItem,
   SelectLabel,
   SelectTrigger,
@@ -33,7 +34,7 @@ export function LanguageSwitcher({ className = "" }: { className?: string }) {
               </SelectItem>
             ))}
           {localeCatalog.length > supportedLocales.length && (
-            <>
+            <SelectGroup>
               <SelectLabel className="mt-1 border-t border-border pt-2 text-xs font-normal leading-5 text-muted-foreground">
                 {messages.additionalLanguagesComingSoon}
               </SelectLabel>
@@ -52,7 +53,7 @@ export function LanguageSwitcher({ className = "" }: { className?: string }) {
                     </span>
                   </SelectItem>
                 ))}
-            </>
+            </SelectGroup>
           )}
         </SelectContent>
       </Select>
