@@ -4,6 +4,7 @@ import { Menu, X } from "lucide-react";
 import { Logo } from "./Logo";
 import { RegionSwitcher } from "./region";
 import { LanguageSwitcher } from "./LanguageSwitcher";
+import { useLocale } from "@/i18n/LocaleProvider";
 
 const nav = [
   { label: "Home", to: "/" },
@@ -16,6 +17,7 @@ const nav = [
 
 export function Header() {
   const [open, setOpen] = useState(false);
+  const { t } = useLocale();
 
   return (
     <header className="sticky top-0 z-50 border-b border-border/80 bg-background/90 backdrop-blur-xl">
@@ -32,7 +34,7 @@ export function Header() {
               inactiveProps={{ className: "text-ink/70 hover:text-primary" }}
               className="relative py-3 text-sm font-semibold transition-colors after:absolute after:inset-x-0 after:bottom-1 after:h-px after:origin-left after:scale-x-0 after:bg-accent after:transition-transform hover:after:scale-x-100"
             >
-              {item.label}
+              {t(item.label)}
             </Link>
           ))}
         </nav>
@@ -45,7 +47,7 @@ export function Header() {
             to="/contact"
             className="hidden min-h-11 items-center rounded-sm bg-accent px-5 text-sm font-bold text-accent-foreground shadow-sm transition-[transform,box-shadow,background-color] hover:-translate-y-0.5 hover:bg-accent/90 hover:shadow-md sm:inline-flex"
           >
-            Start a Project
+            {t("Start a Project")}
           </Link>
 
           <button
@@ -53,7 +55,7 @@ export function Header() {
             className="inline-flex min-h-11 min-w-11 items-center justify-center rounded-sm text-primary transition-colors hover:bg-secondary lg:hidden"
             aria-expanded={open}
             aria-controls="mobile-primary-navigation"
-            aria-label={open ? "Close menu" : "Open menu"}
+            aria-label={open ? t("Close menu") : t("Open menu")}
             onClick={() => setOpen((v) => !v)}
           >
             {open ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
@@ -73,7 +75,7 @@ export function Header() {
                 activeProps={{ className: "border-b border-border/60 py-3.5 text-base font-bold text-primary" }}
                 inactiveProps={{ className: "border-b border-border/60 py-3.5 text-base font-semibold text-ink/80 transition-colors hover:text-primary" }}
               >
-                {item.label}
+                {t(item.label)}
               </Link>
             ))}
             <div className="mt-4 grid gap-3 sm:flex sm:items-center sm:justify-between">
@@ -84,7 +86,7 @@ export function Header() {
                 onClick={() => setOpen(false)}
                 className="inline-flex min-h-11 items-center justify-center rounded-sm bg-accent px-5 text-sm font-bold text-accent-foreground transition-[background-color,box-shadow,transform] hover:-translate-y-0.5 hover:bg-accent/90 hover:shadow-md"
               >
-                Start a Project
+                {t("Start a Project")}
               </Link>
             </div>
           </nav>

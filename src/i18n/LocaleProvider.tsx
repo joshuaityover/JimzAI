@@ -14,18 +14,20 @@ import {
   localeDirection,
   localeStorageKey,
   type Locale,
-  type LocaleMessages,
 } from ".";
+import { makeTranslator, type Translator } from "./translate";
 
 type LocaleContextValue = {
   locale: Locale;
-  messages: LocaleMessages;
+  messages: Record<string, string>;
+  t: Translator;
   setLocale: (locale: Locale) => void;
 };
 
 const LocaleContext = createContext<LocaleContextValue>({
   locale: "en",
   messages: getMessages("en"),
+  t: makeTranslator(getMessages("en")),
   setLocale: () => {},
 });
 
@@ -61,7 +63,7 @@ export function LocaleProvider({ children }: { children: ReactNode }) {
   }, []);
 
   const value = useMemo(
-    () => ({ locale, messages: getMessages(locale), setLocale }),
+    () => ({ locale, messages: getMessages(locale), t: makeTranslator(getMessages(locale)), setLocale }),
     [locale, setLocale],
   );
 

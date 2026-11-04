@@ -16,11 +16,14 @@ export const localeCatalog = [
 ] as const;
 
 export type Locale = (typeof localeCatalog)[number]["code"];
-export type LocaleMessages = typeof enMessages;
+export type LocaleMessages = Record<string, string>;
 export const localeStorageKey = "jimz-language";
 export const fallbackLocale: Locale = "en";
 
-// Add a locale here only when every public-facing page has complete, reviewed translations.
+// Browsers report language codes that differ from the catalog codes.
+const localeAliases: Record<string, Locale> = { zh: "zh-CN" };
+
+// Add a locale here only when its dictionary is complete.
 const completeDictionaries: Partial<Record<Locale, LocaleMessages>> = { en: enMessages };
 export const supportedLocales = Object.keys(completeDictionaries) as Locale[];
 
@@ -33,7 +36,10 @@ export function matchSupportedLocale(value: string | null | undefined): Locale |
   const normalized = value.replaceAll("_", "-").toLowerCase();
   const exact = localeCatalog.find((item) => item.code.toLowerCase() === normalized);
   const baseLanguage = normalized.split("-")[0];
-  const match = exact ?? localeCatalog.find((item) => item.code.toLowerCase() === baseLanguage);
+  const alias = localeAliases[baseLanguage];
+  const match =
+    exact ?? (alias ? localeCatalog.find((item) => item.code === alias) : undefined) ??
+    localeCatalog.find((item) => item.code.toLowerCase() === baseLanguage);
   return match && isLocaleSupported(match.code) ? match.code : undefined;
 }
 
