@@ -11,6 +11,7 @@ import {
 } from "react";
 import { getRegionalPricing, getSupportedRegions } from "@/lib/pricing.functions";
 import type { RegionalPricingResponse, SupportedRegion } from "@/lib/pricing-types";
+import { useLocale } from "@/i18n/LocaleProvider";
 
 const STORAGE_KEY = "jimz-region";
 
@@ -97,6 +98,7 @@ export function useRegion() {
 /** Compact region + currency indicator with an inline region switcher. */
 export function RegionSwitcher({ className = "" }: { className?: string }) {
   const { data, regions, isLoading, manualCountry, setCountry } = useRegion();
+  const { t } = useLocale();
   const [open, setOpen] = useState(false);
   const region = data?.region;
 
@@ -109,27 +111,30 @@ export function RegionSwitcher({ className = "" }: { className?: string }) {
         className="flex min-h-11 items-center gap-1.5 rounded-sm border border-border bg-background px-3 text-[0.7rem] font-bold tracking-wide text-muted-foreground transition-[border-color,color,background-color,transform] hover:-translate-y-0.5 hover:border-primary/40 hover:bg-secondary hover:text-primary"
       >
         {isLoading || !region ? (
-          <span className="animate-pulse">Detecting region…</span>
+          <span className="animate-pulse">{t("Detecting region…")}</span>
         ) : (
           <>
             <span aria-hidden>{countryFlag(region.countryCode)}</span>
-            Prices in {region.currencyCode}
+            {t("Prices in {currency}", { currency: region.currencyCode })}
           </>
         )}
       </button>
 
       {open && (
-        <div className="absolute right-0 z-50 mt-2 w-[min(18rem,calc(100vw-2.5rem))] rounded-sm border border-border bg-card p-4 shadow-lift">
+        <div className="absolute end-0 z-50 mt-2 w-[min(18rem,calc(100vw-2.5rem))] rounded-sm border border-border bg-card p-4 shadow-lift">
           <p className="text-xs font-semibold uppercase tracking-widest text-muted-foreground">
-            Change region
+            {t("Change region")}
           </p>
           <p className="mt-2 text-xs text-ink/70">
             {region?.detected
-              ? `Prices detected for: ${region.countryName} ${countryFlag(region.countryCode)}`
-              : "Select the country you are buying from."}
+              ? t("Prices detected for: {country} {flag}", {
+                  country: region.countryName,
+                  flag: countryFlag(region.countryCode),
+                })
+              : t("Select the country you are buying from.")}
           </p>
           <label className="sr-only" htmlFor="region-select">
-            Country
+            {t("Country")}
           </label>
           <select
             id="region-select"
@@ -140,7 +145,7 @@ export function RegionSwitcher({ className = "" }: { className?: string }) {
             }}
             className="mt-3 min-h-11 w-full rounded-sm border border-border bg-background px-3 text-sm text-ink outline-none transition-colors focus:border-primary focus:ring-2 focus:ring-ring"
           >
-            <option value="">Detect automatically</option>
+            <option value="">{t("Detect automatically")}</option>
             {regions.map((r) => (
               <option key={r.countryCode} value={r.countryCode}>
                 {r.countryName} — {r.currencyCode}
@@ -148,7 +153,7 @@ export function RegionSwitcher({ className = "" }: { className?: string }) {
             ))}
           </select>
           <p className="mt-3 text-[0.7rem] leading-relaxed text-muted-foreground">
-            Region detection is approximate and based on your network location only.
+            {t("Region detection is approximate and based on your network location only.")}
           </p>
         </div>
       )}
